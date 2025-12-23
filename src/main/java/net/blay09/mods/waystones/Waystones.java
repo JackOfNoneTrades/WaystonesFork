@@ -19,7 +19,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
-@Mod(modid = Waystones.MOD_ID, name = "Waystones")
+@Mod(modid = Waystones.MOD_ID, name = "Waystones", guiFactory = "net.blay09.mods.waystones.client.gui.GuiFactory")
 @SuppressWarnings("unused")
 public class Waystones {
 
@@ -56,6 +56,7 @@ public class Waystones {
 		configuration = new Configuration(event.getSuggestedConfigurationFile());
 		config = new WaystoneConfig();
 		config.reloadLocal(configuration);
+        WaystoneConfig.setConfig(configuration);
 		if(configuration.hasChanged()) {
 			configuration.save();
 		}
