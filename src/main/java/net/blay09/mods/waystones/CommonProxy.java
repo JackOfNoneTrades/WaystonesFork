@@ -8,7 +8,6 @@ import net.blay09.mods.waystones.block.TileWaystone;
 import net.blay09.mods.waystones.network.NetworkHandler;
 import net.blay09.mods.waystones.network.message.MessageConfig;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
 
 public class CommonProxy {
@@ -41,7 +40,7 @@ public class CommonProxy {
 
 	}
 
-	public void openWaystoneSelection(boolean isFree) {
+	public void openWaystoneSelection(TileWaystone currentWaystone, boolean isFree) {
 
 	}
 

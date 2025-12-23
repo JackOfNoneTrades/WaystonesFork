@@ -113,7 +113,7 @@ public class BlockWaystone extends BlockContainer {
 					return true;
 				}
 				//Waystones.proxy.openWaystoneNameEdit(tileWaystone);
-				Waystones.proxy.openWaystoneSelection(false);
+				Waystones.proxy.openWaystoneSelection(tileWaystone,false);
 			}
 			return true;
 		}

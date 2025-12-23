@@ -1,7 +1,7 @@
 package net.blay09.mods.waystones.client.gui;
 
 import net.blay09.mods.waystones.WaystoneManager;
-import net.blay09.mods.waystones.Waystones;
+import net.blay09.mods.waystones.block.TileWaystone;
 import net.blay09.mods.waystones.network.NetworkHandler;
 import net.blay09.mods.waystones.network.message.MessageWarpStone;
 import net.blay09.mods.waystones.util.WaystoneEntry;
@@ -15,14 +15,16 @@ import java.util.Iterator;
 
 public class GuiWarpStone extends GuiScreen {
 
+    private final TileWaystone currentWaystone;
 	private final WaystoneEntry[] entries;
 	private GuiButton btnPrevPage;
 	private GuiButton btnNextPage;
 	private int pageOffset;
 	private boolean isFree;
 
-	public GuiWarpStone(WaystoneEntry[] entries, boolean isFree) {
-		this.entries = entries;
+	public GuiWarpStone(TileWaystone currentWaystone, WaystoneEntry[] entries, boolean isFree) {
+		this.currentWaystone = currentWaystone;
+        this.entries = entries;
 		this.isFree = isFree;
 	}
 
@@ -87,6 +89,14 @@ public class GuiWarpStone extends GuiScreen {
 		drawWorldBackground(0);
 		super.drawScreen(mouseX, mouseY, partialTicks);
 		GL11.glColor4f(1f, 1f, 1f, 1f);
+        if (currentWaystone != null) {
+            GL11.glPushMatrix();
+            GL11.glTranslatef(width / 2, height / 2 - 110, 0);
+            float scale = 1.5f;
+            GL11.glScalef(scale, scale, scale);
+            drawCenteredString(fontRendererObj, "§n" + currentWaystone.getWaystoneName(), 0, 0, 0xFFFFFF); // Draw at scaled coords
+            GL11.glPopMatrix();
+        }
 		drawRect(width / 2 - 50, height / 2 - 50, width / 2 + 50, height / 2 + 50, 0xFFFFFF);
 		drawCenteredString(fontRendererObj, I18n.format("gui.waystones:warpStone.selectDestination"), width / 2, height / 2 - 85, 0xFFFFFF);
 	}

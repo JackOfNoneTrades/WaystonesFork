@@ -41,7 +41,7 @@ public class ItemWarpStone extends Item {
 	@Override
 	public ItemStack onEaten(ItemStack itemStack, World world, EntityPlayer player) {
 		if(world.isRemote) {
-			Waystones.proxy.openWaystoneSelection(false);
+			Waystones.proxy.openWaystoneSelection(null,false);
 		}
 		return itemStack;
 	}

@@ -64,7 +64,7 @@ public class ClientProxy extends CommonProxy {
 				if(Waystones.getConfig().teleportButtonReturnOnly) {
 					event.gui.mc.displayGuiScreen(new GuiConfirmReturn());
 				} else {
-					Waystones.proxy.openWaystoneSelection(true);
+					Waystones.proxy.openWaystoneSelection(null, true);
 				}
 			} else {
 				event.gui.mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("random.click"), 0.5f));
@@ -116,7 +116,7 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	@Override
-	public void openWaystoneSelection(boolean isFree) {
+	public void openWaystoneSelection(TileWaystone currentWaystone, boolean isFree) {
 		WaystoneEntry[] playerWaystones = PlayerWaystoneData.fromPlayer(FMLClientHandler.instance().getClientPlayerEntity()).getWaystones();
 		WaystoneEntry[] combinedWaystones = new WaystoneEntry[WaystoneManager.getServerWaystones().size() + playerWaystones.length];
 		int i = 0;
@@ -125,7 +125,7 @@ public class ClientProxy extends CommonProxy {
 			i++;
 		}
 		System.arraycopy(playerWaystones, 0, combinedWaystones, i, playerWaystones.length);
- 		Minecraft.getMinecraft().displayGuiScreen(new GuiWarpStone(combinedWaystones, isFree));
+ 		Minecraft.getMinecraft().displayGuiScreen(new GuiWarpStone(currentWaystone, combinedWaystones, isFree));
 	}
 
 	@Override
