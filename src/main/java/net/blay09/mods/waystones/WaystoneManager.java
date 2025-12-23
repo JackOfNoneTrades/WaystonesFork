@@ -31,6 +31,29 @@ public class WaystoneManager {
     private static final Map<String, WaystoneEntry> serverWaystones = Maps.newHashMap();
     private static final Map<String, WaystoneEntry> knownWaystones = Maps.newHashMap();
 
+    public static boolean playerActivatedWaystone(EntityPlayer player, TileWaystone waystone) {
+        WaystoneEntry target = new WaystoneEntry(waystone);
+
+        // User specific Waystones
+        NBTTagCompound tagCompound = PlayerWaystoneData.getWaystonesTag(player);
+        NBTTagList tagList = tagCompound.getTagList(PlayerWaystoneData.WAYSTONE_LIST, Constants.NBT.TAG_COMPOUND);
+        for (int i = 0; i < tagList.tagCount(); i++) {
+            WaystoneEntry entry = WaystoneEntry.read(tagList.getCompoundTagAt(i));
+            if (entry.equals(target)) {
+                return true;
+            }
+        }
+
+        // Global Waystones
+        for (WaystoneEntry entry : getServerWaystones()) {
+            if (entry.equals(target)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public static void activateWaystone(EntityPlayer player, TileWaystone waystone) {
         WaystoneEntry serverWaystone = getServerWaystone(waystone.getWaystoneName());
         if (serverWaystone != null) {

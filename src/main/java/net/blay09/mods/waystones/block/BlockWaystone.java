@@ -105,9 +105,10 @@ public class BlockWaystone extends BlockContainer {
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		if(player.isSneaking() && (player.capabilities.isCreativeMode || !Waystones.getConfig().creativeModeOnly)) {
+		TileWaystone tileWaystone = getTileWaystone(world, x, y, z);
+		if((player.isSneaking() || WaystoneManager.playerActivatedWaystone(player, tileWaystone))
+				&& (player.capabilities.isCreativeMode || !Waystones.getConfig().creativeModeOnly)) {
 			if(world.isRemote) {
-				TileWaystone tileWaystone = getTileWaystone(world, x, y, z);
 				if(tileWaystone == null) {
 					return true;
 				}
@@ -117,7 +118,6 @@ public class BlockWaystone extends BlockContainer {
 			return true;
 		}
 		if(!world.isRemote) {
-			TileWaystone tileWaystone = getTileWaystone(world, x, y, z);
 			if(tileWaystone == null) {
 				return true;
 			}
