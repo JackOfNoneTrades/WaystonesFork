@@ -21,11 +21,12 @@ public class CommonProxy {
         FMLCommonHandler.instance()
             .bus()
             .register(this);
+
+        MapGenStructureIO
+            .func_143031_a(VillageWaystone.VillageWaystonePiece.class, Waystones.MODID + ":VillageWaystone");
     }
 
     public void init(FMLInitializationEvent event) {
-        MapGenStructureIO.func_143031_a(VillageWaystone.class, Waystones.MOD_ID + ":VillageWaystone");
-
         VillagerRegistry.instance()
             .registerVillageCreationHandler(new VillageWaystone.CreationHandler());
     }

@@ -48,7 +48,7 @@ public class EarlyMixinLoader extends FentEarlyMixinLoader {
 
     @Override
     public String getMixinConfig() {
-        return "mixins." + Waystones.MOD_ID + ".early.json";
+        return "mixins." + Waystones.MODID + ".early.json";
     }
 
     @Override
@@ -57,6 +57,8 @@ public class EarlyMixinLoader extends FentEarlyMixinLoader {
             // Accessors
             .addMixin("AccessorGuiContainer", Side.CLIENT)
             .addMixin("AccessorGuiScreen", Side.BOTH)
+            // Rest
+
             .build();
     }
 }

@@ -22,8 +22,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ItemWarpStone extends Item {
 
     public ItemWarpStone() {
-        setUnlocalizedName(Waystones.MOD_ID + ":warpStone");
-        setTextureName(Waystones.MOD_ID + ":warpStone");
+        setUnlocalizedName(Waystones.MODID + ":warpStone");
+        setTextureName(Waystones.MODID + ":warpStone");
         setCreativeTab(CreativeTabs.tabTools);
         setMaxStackSize(1);
         setMaxDamage(100);

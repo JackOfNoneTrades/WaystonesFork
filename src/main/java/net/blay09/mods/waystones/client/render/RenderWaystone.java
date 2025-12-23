@@ -20,10 +20,10 @@ import org.lwjgl.opengl.GL11;
 public class RenderWaystone extends TileEntitySpecialRenderer {
 
     private static final ResourceLocation texture = new ResourceLocation(
-        Waystones.MOD_ID,
+        Waystones.MODID,
         "textures/entity/waystone.png");
     private static final ResourceLocation textureActive = new ResourceLocation(
-        Waystones.MOD_ID,
+        Waystones.MODID,
         "textures/entity/waystone_active.png");
 
     private final ModelWaystone model = new ModelWaystone();

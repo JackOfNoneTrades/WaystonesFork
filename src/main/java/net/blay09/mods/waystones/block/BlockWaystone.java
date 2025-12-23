@@ -30,7 +30,7 @@ public class BlockWaystone extends BlockContainer {
     public BlockWaystone() {
         super(Material.rock);
 
-        setBlockName(Waystones.MOD_ID + ":waystone");
+        setBlockName(Waystones.MODID + ":waystone");
         setHardness(5f);
         setResistance(2000f);
         setCreativeTab(CreativeTabs.tabDecorations);

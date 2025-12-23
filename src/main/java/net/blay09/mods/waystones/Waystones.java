@@ -22,13 +22,13 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-@Mod(modid = Waystones.MOD_ID, name = "Waystones", guiFactory = "net.blay09.mods.waystones.client.gui.GuiFactory")
+@Mod(modid = Waystones.MODID, name = "Waystones", guiFactory = "net.blay09.mods.waystones.client.gui.GuiFactory")
 @SuppressWarnings("unused")
 public class Waystones {
 
-    public static final String MOD_ID = "waystones";
+    public static final String MODID = "waystones";
 
-    @Mod.Instance(MOD_ID)
+    @Mod.Instance(MODID)
     public static Waystones instance;
 
     @SidedProxy(
@@ -44,13 +44,13 @@ public class Waystones {
 
     private WaystoneConfig config;
 
-    public static final Logger LOG = LogManager.getLogger(MOD_ID);
+    public static final Logger LOG = LogManager.getLogger(MODID);
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         blockWaystone = new BlockWaystone();
         GameRegistry.registerBlock(blockWaystone, "waystone");
-        GameRegistry.registerTileEntity(TileWaystone.class, MOD_ID + ":waystone");
+        GameRegistry.registerTileEntity(TileWaystone.class, MODID + ":waystone");
 
         itemReturnScroll = new ItemReturnScroll();
         GameRegistry.registerItem(itemReturnScroll, "warpScroll");
@@ -74,6 +74,8 @@ public class Waystones {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         FMLInterModComms.sendMessage("Waila", "register", "net.blay09.mods.waystones.compat.WailaProvider.register");
+
+        proxy.init(event);
     }
 
     @Mod.EventHandler

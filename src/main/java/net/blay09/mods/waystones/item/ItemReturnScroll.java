@@ -20,8 +20,8 @@ public class ItemReturnScroll extends Item {
 
     public ItemReturnScroll() {
         setCreativeTab(CreativeTabs.tabTools);
-        setUnlocalizedName(Waystones.MOD_ID + ":returnScroll");
-        setTextureName(Waystones.MOD_ID + ":returnScroll");
+        setUnlocalizedName(Waystones.MODID + ":returnScroll");
+        setTextureName(Waystones.MODID + ":returnScroll");
     }
 
     @Override

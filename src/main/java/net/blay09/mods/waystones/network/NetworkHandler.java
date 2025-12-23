@@ -20,7 +20,7 @@ import cpw.mods.fml.relauncher.Side;
 
 public class NetworkHandler {
 
-    public static final SimpleNetworkWrapper channel = NetworkRegistry.INSTANCE.newSimpleChannel(Waystones.MOD_ID);
+    public static final SimpleNetworkWrapper channel = NetworkRegistry.INSTANCE.newSimpleChannel(Waystones.MODID);
 
     public static void init() {
         channel.registerMessage(HandlerConfig.class, MessageConfig.class, 0, Side.CLIENT);

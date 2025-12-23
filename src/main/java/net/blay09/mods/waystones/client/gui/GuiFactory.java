@@ -51,8 +51,8 @@ public class GuiFactory implements IModGuiFactory {
                     new ConfigElement(
                         WaystoneConfig.getRawConfig()
                             .getCategory(WaystoneConfig.Categories.generated))),
-                Waystones.MOD_ID,
-                Waystones.MOD_ID,
+                Waystones.MODID,
+                Waystones.MODID,
                 false,
                 false,
                 I18n.format("gui.waystones:configTitle"));
