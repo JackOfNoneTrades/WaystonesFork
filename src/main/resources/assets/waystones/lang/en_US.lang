@@ -18,6 +18,7 @@ gui.waystones:confirmReturn.boundTo=Bound to: %s
 gui.waystones:confirmReturn.noWaystoneActive=No waystone active.
 gui.waystones:editWaystone.enterName=Enter waystone name:
 gui.waystones:editWaystone.isGlobal=is Global
+gui.waystones:nameTaken=A waystone with this name already exists
 
 tooltip.waystones:cooldownLeft=Cooldown: %d seconds
 tooltip.waystones:boundTo=Bound to: %s

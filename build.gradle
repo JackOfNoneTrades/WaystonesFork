@@ -1,4 +1,6 @@
-def BUILD_NUMBER = System.getenv("BUILD_NUMBER") ?: "0"
+def VERSION = System.getenv("VERSION") ?: "1.0."
+def envBuild = System.getenv("BUILD_NUMBER")
+def BUILD_NUMBER = (envBuild != null && !envBuild.isEmpty()) ? envBuild : ""
 def MAVEN_REPO = System.getenv("MAVEN_REPO") ?: ""
 def MAVEN_USERNAME = System.getenv("MAVEN_USERNAME") ?: ""
 def MAVEN_PASSWORD = System.getenv("MAVEN_PASSWORD") ?: ""
@@ -24,7 +26,7 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "1.0." + BUILD_NUMBER
+version = VERSION + BUILD_NUMBER
 group = "net.blay09.mods"
 archivesBaseName = "Waystones"
 sourceCompatibility = targetCompatibility = '1.8'

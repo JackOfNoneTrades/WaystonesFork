@@ -106,19 +106,22 @@ public class BlockWaystone extends BlockContainer {
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		TileWaystone tileWaystone = getTileWaystone(world, x, y, z);
+        if(world.isRemote && tileWaystone.getWaystoneName().isEmpty()) {
+            Waystones.proxy.openWaystoneNameEdit(tileWaystone);
+            return true;
+        }
 		if((player.isSneaking() || WaystoneManager.playerActivatedWaystone(player, tileWaystone))
 				&& (player.capabilities.isCreativeMode || !Waystones.getConfig().creativeModeOnly)) {
 			if(world.isRemote) {
 				if(tileWaystone == null) {
 					return true;
 				}
-				//Waystones.proxy.openWaystoneNameEdit(tileWaystone);
-				Waystones.proxy.openWaystoneSelection(tileWaystone,false);
+                Waystones.proxy.openWaystoneSelection(tileWaystone,false);
 			}
 			return true;
 		}
 		if(!world.isRemote) {
-			if(tileWaystone == null) {
+			if(tileWaystone == null || tileWaystone.getWaystoneName().isEmpty()) {
 				return true;
 			}
 			ChatComponentText nameComponent = new ChatComponentText(tileWaystone.getWaystoneName());

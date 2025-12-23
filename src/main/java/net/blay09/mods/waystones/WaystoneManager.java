@@ -225,4 +225,8 @@ public class WaystoneManager {
     public static WaystoneEntry getServerWaystone(String name) {
         return serverWaystones.get(name);
     }
+
+    public static Collection<WaystoneEntry> getKnownWaystones() {
+        return knownWaystones.values();
+    }
 }

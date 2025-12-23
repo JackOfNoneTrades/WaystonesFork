@@ -9,6 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.EnumChatFormatting;
 import org.lwjgl.opengl.GL11;
 
 import java.util.Iterator;
@@ -94,7 +95,7 @@ public class GuiWarpStone extends GuiScreen {
             GL11.glTranslatef(width / 2, height / 2 - 110, 0);
             float scale = 1.5f;
             GL11.glScalef(scale, scale, scale);
-            drawCenteredString(fontRendererObj, "§n" + currentWaystone.getWaystoneName(), 0, 0, 0xFFFFFF); // Draw at scaled coords
+            drawCenteredString(fontRendererObj, EnumChatFormatting.UNDERLINE + currentWaystone.getWaystoneName(), 0, 0, 0xFFFFFF); // Draw at scaled coords
             GL11.glPopMatrix();
         }
 		drawRect(width / 2 - 50, height / 2 - 50, width / 2 + 50, height / 2 + 50, 0xFFFFFF);

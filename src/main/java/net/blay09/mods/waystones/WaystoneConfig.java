@@ -7,7 +7,7 @@ import net.minecraftforge.common.config.Configuration;
 
 import java.util.Collection;
 
-public class WaystoneConfig {
+    public class WaystoneConfig {
 
 	public static int teleportButtonX;
 	public static int teleportButtonY;
@@ -30,6 +30,8 @@ public class WaystoneConfig {
 
 	public boolean globalNoCooldown;
 	public boolean globalInterDimension;
+
+    public static boolean showNametag;
 
 	public void reloadLocal(Configuration config) {
 		teleportButton = config.getBoolean("Teleport Button in GUI", "general", false, "Should there be a button in the inventory to access the waystone menu?");
@@ -74,6 +76,8 @@ public class WaystoneConfig {
 			}
 		}
 		WaystoneManager.setServerWaystones(serverWaystones);
+
+        showNametag = config.getBoolean("Show Waystone nametag", "client", false, "If true, show a floating nametag with the Waystone's name, above it.");
 	}
 
 	public static void storeServerWaystones(Configuration config, Collection<WaystoneEntry> entries) {
@@ -99,6 +103,7 @@ public class WaystoneConfig {
 		config.globalInterDimension = buf.readBoolean();
 		config.creativeModeOnly = buf.readBoolean();
 		config.setSpawnPoint = buf.readBoolean();
+        config.showNametag = buf.readBoolean();
 		return config;
 	}
 
@@ -111,5 +116,6 @@ public class WaystoneConfig {
 		buf.writeBoolean(globalInterDimension);
 		buf.writeBoolean(creativeModeOnly);
 		buf.writeBoolean(setSpawnPoint);
+        buf.writeBoolean(showNametag);
 	}
 }

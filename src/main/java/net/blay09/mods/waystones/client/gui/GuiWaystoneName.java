@@ -6,11 +6,13 @@ import net.blay09.mods.waystones.block.TileWaystone;
 import net.blay09.mods.waystones.network.NetworkHandler;
 import net.blay09.mods.waystones.network.message.MessageWaystoneName;
 import net.blay09.mods.waystones.util.BlockPos;
+import net.blay09.mods.waystones.util.WaystoneEntry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.EnumChatFormatting;
 import org.lwjgl.input.Keyboard;
 
 public class GuiWaystoneName extends GuiScreen {
@@ -51,13 +53,18 @@ public class GuiWaystoneName extends GuiScreen {
 		Keyboard.enableRepeatEvents(false);
 	}
 
-	@Override
-	protected void actionPerformed(GuiButton button) {
-		if(button == btnDone) {
-			NetworkHandler.channel.sendToServer(new MessageWaystoneName(new BlockPos(tileWaystone), textField.getText(), chkGlobal.isChecked()));
-			mc.displayGuiScreen(null);
-		}
-	}
+    @Override
+    protected void actionPerformed(GuiButton button) {
+        if(button == btnDone) {
+            NetworkHandler.channel.sendToServer(new MessageWaystoneName(new BlockPos(tileWaystone), textField.getText(), chkGlobal.isChecked()));
+            mc.displayGuiScreen(null);
+        } else if (button == chkGlobal) {
+            // Re-check the duplicate name whenever the checkbox is toggled
+            String newName = textField.getText().trim();
+            boolean duplicate = isNameDuplicate(newName, chkGlobal.isChecked());
+            btnDone.enabled = !newName.isEmpty() && !duplicate;
+        }
+    }
 
 	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) {
@@ -68,11 +75,18 @@ public class GuiWaystoneName extends GuiScreen {
 	@Override
 	protected void keyTyped(char typedChar, int keyCode) {
 		if(keyCode == Keyboard.KEY_RETURN) {
-			actionPerformed(btnDone);
-			return;
+            if (btnDone.enabled) {
+                actionPerformed(btnDone);
+            }
+            return;
 		}
 		super.keyTyped(typedChar, keyCode);
 		textField.textboxKeyTyped(typedChar, keyCode);
+
+        // Check duplicates and enable/disable Done button
+        String newName = textField.getText().trim();
+        boolean duplicate = isNameDuplicate(newName, chkGlobal.isChecked());
+        btnDone.enabled = !newName.isEmpty() && !duplicate;
 	}
 
 	@Override
@@ -87,6 +101,23 @@ public class GuiWaystoneName extends GuiScreen {
 
 		fontRendererObj.drawString(I18n.format("gui.waystones:editWaystone.enterName"), width / 2 - 100, height / 2 - 35, 0xFFFFFF);
 		textField.drawTextBox();
+
+        String newName = textField.getText().trim();
+        if (isNameDuplicate(newName, chkGlobal.isChecked())) {
+            fontRendererObj.drawString(EnumChatFormatting.RED + I18n.format("gui.waystones:nameTaken"), width / 2 - 100, height / 2 + 40, 0xFF0000);
+        }
 	}
 
+    private boolean isNameDuplicate(String name, boolean global) {
+        if (global) {
+            return WaystoneManager.getServerWaystone(name) != null && !name.equals(tileWaystone.getWaystoneName());
+        } else {
+            for (WaystoneEntry entry : WaystoneManager.getKnownWaystones()) {
+                if (!entry.isGlobal() && entry.getName().equals(name) && !name.equals(tileWaystone.getWaystoneName())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }
