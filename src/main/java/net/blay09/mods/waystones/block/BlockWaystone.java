@@ -106,6 +106,51 @@ public class BlockWaystone extends BlockContainer {
         }
     }
 
+    public static void clientActivationEffects(World world, int x, int y, int z) {
+        Waystones.proxy.playSound("random.levelup", 1f);
+        for (int i = 0; i < 32; i++) {
+            world.spawnParticle(
+                "enchantmenttable",
+                x + 0.5 + (world.rand.nextDouble() - 0.5) * 2,
+                y + 3,
+                z + 0.5 + (world.rand.nextDouble() - 0.5) * 2,
+                0,
+                -5,
+                0);
+            world.spawnParticle(
+                "enchantmenttable",
+                x + 0.5 + (world.rand.nextDouble() - 0.5) * 2,
+                y + 4,
+                z + 0.5 + (world.rand.nextDouble() - 0.5) * 2,
+                0,
+                -5,
+                0);
+        }
+    }
+
+    public static void sendActivationChatMessage(EntityPlayer player, TileWaystone tileWaystone) {
+        ChatComponentText nameComponent = new ChatComponentText(tileWaystone.getWaystoneName());
+        nameComponent.getChatStyle()
+            .setColor(EnumChatFormatting.WHITE);
+        ChatComponentTranslation chatComponent = new ChatComponentTranslation(
+            "waystones:activatedWaystone",
+            nameComponent);
+        chatComponent.getChatStyle()
+            .setColor(EnumChatFormatting.YELLOW);
+        player.addChatComponentMessage(chatComponent);
+    }
+
+    public static void setSpawnPoint(World world, EntityPlayer player, TileWaystone tileWaystone) {
+        ForgeDirection facing = ForgeDirection
+            .getOrientation(world.getBlockMetadata(tileWaystone.xCoord, tileWaystone.yCoord, tileWaystone.zCoord));
+        player.setSpawnChunk(
+            new ChunkCoordinates(
+                tileWaystone.xCoord + facing.offsetX,
+                tileWaystone.yCoord + facing.offsetY,
+                tileWaystone.zCoord + facing.offsetZ),
+            true);
+    }
+
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX,
         float hitY, float hitZ) {
@@ -130,46 +175,15 @@ public class BlockWaystone extends BlockContainer {
                 .isEmpty()) {
                 return true;
             }
-            ChatComponentText nameComponent = new ChatComponentText(tileWaystone.getWaystoneName());
-            nameComponent.getChatStyle()
-                .setColor(EnumChatFormatting.WHITE);
-            ChatComponentTranslation chatComponent = new ChatComponentTranslation(
-                "waystones:activatedWaystone",
-                nameComponent);
-            chatComponent.getChatStyle()
-                .setColor(EnumChatFormatting.YELLOW);
-            player.addChatComponentMessage(chatComponent);
+
+            sendActivationChatMessage(player, tileWaystone);
             WaystoneManager.activateWaystone(player, tileWaystone);
+
             if (Waystones.getConfig().setSpawnPoint) {
-                ForgeDirection facing = ForgeDirection.getOrientation(
-                    world.getBlockMetadata(tileWaystone.xCoord, tileWaystone.yCoord, tileWaystone.zCoord));
-                player.setSpawnChunk(
-                    new ChunkCoordinates(
-                        tileWaystone.xCoord + facing.offsetX,
-                        tileWaystone.yCoord + facing.offsetY,
-                        tileWaystone.zCoord + facing.offsetZ),
-                    true);
+                setSpawnPoint(world, player, tileWaystone);
             }
         } else {
-            Waystones.proxy.playSound("random.levelup", 1f);
-            for (int i = 0; i < 32; i++) {
-                world.spawnParticle(
-                    "enchantmenttable",
-                    x + 0.5 + (world.rand.nextDouble() - 0.5) * 2,
-                    y + 3,
-                    z + 0.5 + (world.rand.nextDouble() - 0.5) * 2,
-                    0,
-                    -5,
-                    0);
-                world.spawnParticle(
-                    "enchantmenttable",
-                    x + 0.5 + (world.rand.nextDouble() - 0.5) * 2,
-                    y + 4,
-                    z + 0.5 + (world.rand.nextDouble() - 0.5) * 2,
-                    0,
-                    -5,
-                    0);
-            }
+            clientActivationEffects(world, x, y, z);
         }
         return true;
     }

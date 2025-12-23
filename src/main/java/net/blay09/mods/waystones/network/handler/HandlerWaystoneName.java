@@ -2,6 +2,7 @@ package net.blay09.mods.waystones.network.handler;
 
 import net.blay09.mods.waystones.WaystoneManager;
 import net.blay09.mods.waystones.Waystones;
+import net.blay09.mods.waystones.block.BlockWaystone;
 import net.blay09.mods.waystones.block.TileWaystone;
 import net.blay09.mods.waystones.network.message.MessageWaystoneName;
 import net.blay09.mods.waystones.util.BlockPos;
@@ -50,6 +51,18 @@ public class HandlerWaystoneName implements IMessageHandler<MessageWaystoneName,
                             WaystoneManager.sendPlayerWaystones((EntityPlayer) obj);
                         }
                     }
+
+                    // Activate immediately the Waystone immediately
+                    TileWaystone tileWaystone = (TileWaystone) tileEntity;
+                    WaystoneManager.activateWaystone(entityPlayer, tileWaystone);
+                    BlockWaystone
+                        .clientActivationEffects(world, tileWaystone.xCoord, tileWaystone.yCoord, tileWaystone.zCoord);
+
+                    if (Waystones.getConfig().setSpawnPoint) {
+                        BlockWaystone.setSpawnPoint(world, entityPlayer, tileWaystone);
+                    }
+
+                    BlockWaystone.sendActivationChatMessage(entityPlayer, tileWaystone);
                 }
             }
         });
