@@ -4,8 +4,12 @@ Minecraft Mod. Teleport back to activated waystones. For Survival, Adventure or 
 ### Building on Linux
 You must use java 8, for example:
 ```
-JAVA_HOME=/usr/lib/jvm/java-8-openjdk/ ./gradlew build
+VERSION=debug BUILD_NUMBER="" JAVA_HOME=/usr/lib/jvm/java-8-openjdk/ ./gradlew build
 ```
+
+### Fixes:
+* Nether portals aren't generated when teleporting to the Nether (@kuzuanpa)
+* Fixed some rendering bugs (@kuzuanpa)
 
 ### New features:
 * Clicking an activated Waystone will open the teleport menu, instead of needing to shift-click it (much more intuitive)
