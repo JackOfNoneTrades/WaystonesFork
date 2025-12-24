@@ -22,7 +22,7 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-@Mod(modid = Waystones.MODID, name = "Waystones", guiFactory = "net.blay09.mods.waystones.client.gui.GuiFactory")
+@Mod(modid = Waystones.MODID, name = "Waystones-X", guiFactory = "net.blay09.mods.waystones.client.gui.GuiFactory")
 @SuppressWarnings("unused")
 public class Waystones {
 

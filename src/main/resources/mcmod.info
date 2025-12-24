@@ -8,7 +8,7 @@
 		"mcversion": "${minecraftVersion}",
 		"url": "https://github.com/JackOfNoneTrades/WaystonesFork",
 		"updateUrl": "",
-		"authorList": ["BlayTheNinth"],
+		"authorList": ["BlayTheNinth", "jack"],
 		"credits": "Developed by BlayTheNinth. Includes item icons by @JoeCreates released under CC-BY-SA 3.0",
 		"logoFile": "assets/${modId}/logo.png",
 		"screenshots": [],
