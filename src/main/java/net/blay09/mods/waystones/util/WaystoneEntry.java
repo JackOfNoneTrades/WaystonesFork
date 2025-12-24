@@ -104,4 +104,13 @@ public class WaystoneEntry {
         System.arraycopy(playerWaystones, 0, combinedWaystones, i, playerWaystones.length);
         return combinedWaystones;
     }
+
+    public static boolean tileAndEntryShareCoords(WaystoneEntry entry, TileWaystone tile) {
+        return entry.getPos()
+            .getX() == tile.xCoord
+            && entry.getPos()
+                .getY() == tile.yCoord
+            && entry.getPos()
+                .getZ() == tile.zCoord;
+    }
 }

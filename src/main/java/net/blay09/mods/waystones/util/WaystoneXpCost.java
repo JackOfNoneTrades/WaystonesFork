@@ -33,12 +33,7 @@ public class WaystoneXpCost {
     public static WaystoneEntry entryFromTile(TileWaystone tile) {
         WaystoneEntry[] entries = WaystoneEntry.getCombinedWaystones();
         for (WaystoneEntry w : entries) {
-            if (w.getPos()
-                .getX() == tile.xCoord
-                && w.getPos()
-                    .getY() == tile.yCoord
-                && w.getPos()
-                    .getZ() == tile.zCoord) {
+            if (WaystoneEntry.tileAndEntryShareCoords(w, tile)) {
                 return w;
             }
         }
@@ -59,7 +54,6 @@ public class WaystoneXpCost {
         // Cross-dimension cost
         WaystoneEntry fromEntry = entryFromTile(from);
         if (fromEntry != null) {
-            System.out.println("fromEntry is not null.");
             if (fromEntry.getDimensionId() != to.getDimensionId()) {
                 return base + WaystoneConfig.xpCrossDimCost;
             }

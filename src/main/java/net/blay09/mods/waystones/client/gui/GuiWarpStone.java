@@ -73,6 +73,9 @@ public class GuiWarpStone extends GuiScreen {
         int y = 0;
         for (int i = 0; i < buttonsPerPage; i++) {
             int entryIndex = pageOffset * buttonsPerPage + i;
+            if (WaystoneEntry.tileAndEntryShareCoords(entries[entryIndex], currentWaystone)) {
+                continue;
+            }
             if (entryIndex >= 0 && entryIndex < entries.length) {
                 int xpCost = -1;
                 if (!Minecraft.getMinecraft().thePlayer.capabilities.isCreativeMode) {
