@@ -27,6 +27,18 @@ public class RenderWaystone extends TileEntitySpecialRenderer {
         Waystones.MODID,
         "textures/entity/waystone_active.png");
 
+    private static final ResourceLocation[] activeTextures = {
+        new ResourceLocation(Waystones.MODID, "textures/entity/waystone_active_1.png"),
+        new ResourceLocation(Waystones.MODID, "textures/entity/waystone_active_2.png"),
+        new ResourceLocation(Waystones.MODID, "textures/entity/waystone_active_3.png"),
+        new ResourceLocation(Waystones.MODID, "textures/entity/waystone_active_4.png"),
+        new ResourceLocation(Waystones.MODID, "textures/entity/waystone_active_5.png"),
+        new ResourceLocation(Waystones.MODID, "textures/entity/waystone_active_6.png") };
+
+    private static final ResourceLocation textureNonActive = new ResourceLocation(
+        Waystones.MODID,
+        "textures/entity/waystone_nonactive.png");
+
     private final ModelWaystone model = new ModelWaystone();
 
     float getCooldownProgress(TileWaystone tileWaystone) {
@@ -36,6 +48,10 @@ public class RenderWaystone extends TileEntitySpecialRenderer {
         long cooldown = Waystones.getConfig().warpStoneCooldown * 1000L;
         long timeSince = System.currentTimeMillis() - lastUse;
         return Math.min(1f, Math.max(0f, (float) timeSince / cooldown));
+    }
+
+    public static int normalizeToFive(float x) {
+        return Math.round(x * 5);
     }
 
     @Override
@@ -59,17 +75,30 @@ public class RenderWaystone extends TileEntitySpecialRenderer {
         GL11.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         model.renderAll();
         if (tileWaystone.hasWorldObj() && stoneIsKnown) {
-            bindTexture(textureActive);
             GL11.glScalef(1.05f, 1.05f, 1.05f);
+
+            GL11.glDisable(GL11.GL_CULL_FACE); // render all faces
+
+            // Render nonactive pillar normally (with lighting)
+            bindTexture(textureNonActive);
+            GL11.glEnable(GL11.GL_LIGHTING); // ensure lighting is on
+            Minecraft.getMinecraft().entityRenderer.enableLightmap(0);
+            model.renderPillar();
+
+            // Render active pillar with glow (lighting off)
             if (!WaystoneConfig.disableTextGlow) {
                 GL11.glDisable(GL11.GL_LIGHTING);
                 Minecraft.getMinecraft().entityRenderer.disableLightmap(0);
             }
+            bindTexture(activeTextures[normalizeToFive(getCooldownProgress(tileWaystone))]);
             model.renderPillar();
             if (!WaystoneConfig.disableTextGlow) {
                 GL11.glEnable(GL11.GL_LIGHTING);
                 Minecraft.getMinecraft().entityRenderer.enableLightmap(0);
             }
+
+            GL11.glEnable(GL11.GL_CULL_FACE); // restore culling
+
         }
         GL11.glDisable(GL_BLEND);
         GL11.glPopMatrix();

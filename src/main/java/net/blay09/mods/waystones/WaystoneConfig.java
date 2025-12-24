@@ -99,12 +99,12 @@ public class WaystoneConfig {
             "If true, activated waystones will not emit particles.");
 
         warpStoneCooldown = config.getInt(
-            "Warp Stone Cooldown",
+            "Teleportation Cooldown",
             Categories.general,
             300,
             0,
             86400,
-            "The cooldown between usages of the warp stone in seconds.");
+            "The cooldown between usages of the Warp Stone and Waystone in seconds.");
 
         setSpawnPoint = config.getBoolean(
             "Set Spawnpoint on Activation",
