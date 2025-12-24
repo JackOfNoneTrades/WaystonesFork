@@ -106,6 +106,9 @@ public class WaystoneEntry {
     }
 
     public static boolean tileAndEntryShareCoords(WaystoneEntry entry, TileWaystone tile) {
+        if (entry == null || tile == null) {
+            return false;
+        }
         return entry.getPos()
             .getX() == tile.xCoord
             && entry.getPos()

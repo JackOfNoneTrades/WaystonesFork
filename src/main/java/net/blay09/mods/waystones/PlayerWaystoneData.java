@@ -1,6 +1,7 @@
 package net.blay09.mods.waystones;
 
 import net.blay09.mods.waystones.util.WaystoneEntry;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -109,8 +110,9 @@ public class PlayerWaystoneData {
     }
 
     public static boolean canUseWarpStone(EntityPlayer player) {
-        return System.currentTimeMillis() - getLastWarpStoneUse(player)
-            > Waystones.getConfig().warpStoneCooldown * 1000;
+        return (Minecraft.getMinecraft().thePlayer.capabilities.isCreativeMode)
+            || (System.currentTimeMillis() - getLastWarpStoneUse(player)
+                > Waystones.getConfig().warpStoneCooldown * 1000);
     }
 
     public static void setLastFreeWarp(EntityPlayer player, long lastFreeWarp) {

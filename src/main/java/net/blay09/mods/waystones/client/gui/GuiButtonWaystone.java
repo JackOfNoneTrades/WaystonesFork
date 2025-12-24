@@ -52,7 +52,7 @@ public class GuiButtonWaystone extends GuiButton {
     public void drawButton(Minecraft mc, int mouseX, int mouseY) {
         super.drawButton(mc, mouseX, mouseY);
 
-        if (WaystoneConfig.xpBaseCost > -1) {
+        if (WaystoneConfig.xpBaseCost > -1 && !Minecraft.getMinecraft().thePlayer.capabilities.isCreativeMode) {
             // Cost
             int color = (Minecraft.getMinecraft().thePlayer.experienceLevel >= xpCost) ? 0x55FF55 : 0xFF5555;
             String s = String.valueOf(xpCost);

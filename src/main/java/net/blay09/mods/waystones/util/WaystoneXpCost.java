@@ -2,11 +2,15 @@ package net.blay09.mods.waystones.util;
 
 import net.blay09.mods.waystones.WaystoneConfig;
 import net.blay09.mods.waystones.block.TileWaystone;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class WaystoneXpCost {
 
     public static int getXpCost(EntityPlayer player, WaystoneEntry to) {
+        if (WaystoneConfig.xpBaseCost < 0) {
+            return -1;
+        }
         int base = WaystoneConfig.xpBaseCost;
         int blocksPerLevel = WaystoneConfig.xpBlocksPerLevel;
 
@@ -43,6 +47,9 @@ public class WaystoneXpCost {
     public static int getXpCost(TileWaystone from, WaystoneEntry to) {
         if (WaystoneConfig.xpBaseCost < 0) {
             return -1;
+        }
+        if (from == null) {
+            return getXpCost(Minecraft.getMinecraft().thePlayer, to);
         }
         int base = WaystoneConfig.xpBaseCost;
         int blocksPerLevel = WaystoneConfig.xpBlocksPerLevel;

@@ -11,6 +11,7 @@ waystones:activatedWaystone=Activated Waystone: %s
 waystones:nameOccupied=The name %s is already in use.
 
 gui.waystones:warpStone.selectDestination=Select your destination:
+gui.waystones:warpStone.cantWarpWaystone=You cannot warp yet
 gui.waystones:warpStone.nextPage=Next
 gui.waystones:warpStone.previousPage=Previous
 gui.waystones:confirmReturn=Do you really want to warp back to your latest waystone?
@@ -20,7 +21,7 @@ gui.waystones:editWaystone.enterName=Enter waystone name:
 gui.waystones:editWaystone.isGlobal=is Global
 gui.waystones:nameTaken=A waystone with this name already exists
 gui.waystones:configTitle=Waystones Config
-gui.waystones:notEnoughXp=You need %s experience levels to teleport to that location
+gui.waystones:notEnoughXp=You need %s experience levels to warp to that location
 
 tooltip.waystones:cooldownLeft=Cooldown: %d seconds
 tooltip.waystones:boundTo=Bound to: %s

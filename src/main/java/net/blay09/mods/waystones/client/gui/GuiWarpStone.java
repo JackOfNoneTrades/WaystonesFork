@@ -2,6 +2,7 @@ package net.blay09.mods.waystones.client.gui;
 
 import java.util.Iterator;
 
+import net.blay09.mods.waystones.PlayerWaystoneData;
 import net.blay09.mods.waystones.WaystoneConfig;
 import net.blay09.mods.waystones.WaystoneManager;
 import net.blay09.mods.waystones.block.TileWaystone;
@@ -143,12 +144,35 @@ public class GuiWarpStone extends GuiScreen {
             GL11.glPopMatrix();
         }
         drawRect(width / 2 - 50, height / 2 - 50, width / 2 + 50, height / 2 + 50, 0xFFFFFF);
-        drawCenteredString(
-            fontRendererObj,
-            I18n.format("gui.waystones:warpStone.selectDestination"),
-            width / 2,
-            height / 2 - 85,
-            0xFFFFFF);
+        if (PlayerWaystoneData.canUseWarpStone(Minecraft.getMinecraft().thePlayer)) {
+            drawCenteredString(
+                fontRendererObj,
+                I18n.format("gui.waystones:warpStone.selectDestination"),
+                width / 2,
+                height / 2 - 85,
+                0xFFFFFF);
+            for (GuiButton btn : buttonList) {
+                if (btn instanceof GuiButtonWaystone) {
+                    if (WaystoneXpCost
+                        .getXpCost(Minecraft.getMinecraft().thePlayer, ((GuiButtonWaystone) btn).getWaystone())
+                        <= Minecraft.getMinecraft().thePlayer.experienceLevel) {
+                        btn.enabled = true;
+                    }
+                }
+            }
+        } else {
+            drawCenteredString(
+                fontRendererObj,
+                I18n.format("gui.waystones:warpStone.cantWarpWaystone"),
+                width / 2,
+                height / 2 - 85,
+                0x611A09);
+            for (GuiButton btn : buttonList) {
+                if (btn instanceof GuiButtonWaystone) {
+                    btn.enabled = false;
+                }
+            }
+        }
     }
 
 }
