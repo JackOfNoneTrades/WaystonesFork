@@ -1,0 +1,30 @@
+tile.waystones:waystone.name=传送石碑
+
+item.waystones:returnScroll.name=回城卷轴
+item.waystones:warpStone.name=传送石
+
+waystones:noDimensionWarp=禁止跨世界传送。
+waystones:waystoneBroken=绑定的石碑已被移动或破坏。
+waystones:scrollNotBound=该卷轴未绑定到任何石碑。
+waystones:stoneNotCharged=传送石未完全充能。
+waystones:activatedWaystone=已激活的传送石碑: %s
+waystones:nameOccupied=名称[%s]已被占用。
+waystones:nameTaken=已存在同名石碑
+
+gui.waystones:warpStone.selectDestination=选择目的地:
+gui.waystones:warpStone.cantWarpWaystone=目前无法传送
+gui.waystones:warpStone.nextPage=下一页
+gui.waystones:warpStone.previousPage=上一页
+gui.waystones:confirmReturn=确定要传送返回到该石碑吗?
+gui.waystones:confirmReturn.boundTo=绑定至: %s
+gui.waystones:confirmReturn.noWaystoneActive=没有激活的石碑。
+gui.waystones:editWaystone.enterName=为石碑命名:
+gui.waystones:editWaystone.isGlobal=允许跨世界传送
+gui.waystones:configTitle=传送石碑配置
+gui.waystones:notEnoughXp=传送至该位置需要 %s 经验等级
+
+tooltip.waystones:cooldownLeft=冷却时间: %d秒
+tooltip.waystones:boundTo=绑定至: %s
+tooltip.waystones:none=无
+tooltip.waystones:returnToWaystone=返回传送石碑
+tooltip.waystones:openWaystoneMenu=打开石碑菜单
