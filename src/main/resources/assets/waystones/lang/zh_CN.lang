@@ -21,8 +21,8 @@ waystones:waystoneTooFar=§c此传送石碑距离过远!
 waystones:renameCreativeOnly=§c重命名传送石碑仅为创造模式玩家保留。
 
 gui.waystones:warpStone.selectDestination=选择目的地:
-gui.waystones:warpStone.title=§5Warp Stone
-gui.waystones:guiButton.title=§bWarp Scroll
+gui.waystones:warpStone.title=§5传送石
+gui.waystones:guiButton.title=§b传送卷轴
 gui.waystones:warpStone.cantWarpWaystone=目前无法传送
 gui.waystones:warpStone.nextPage=下一页
 gui.waystones:warpStone.previousPage=上一页
