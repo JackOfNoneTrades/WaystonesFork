@@ -66,9 +66,9 @@ public class RenderWaystone extends TileEntitySpecialRenderer {
         Waystones.MODID,
         "textures/entity/endstone_active.png");
 
-    private static final float LAVA_TEXTURE_SCALE = 1.0f;
-    private static final float LAVA_TEXTURE_X_OFFSET = 0f;
-    private static final float LAVA_TEXTURE_Y_OFFSET = 0f;
+    // UV zoom factor for overlay textures
+    private static final float LAVA_UV_SCALE = 3.0f;
+    private static final float END_PORTAL_UV_SCALE = 3.0f;
 
     private static final ResourceLocation END_SKY_TEXTURE = new ResourceLocation("textures/environment/end_sky.png");
     private static final ResourceLocation END_PORTAL_TEXTURE = new ResourceLocation("textures/entity/end_portal.png");
@@ -265,49 +265,28 @@ public class RenderWaystone extends TileEntitySpecialRenderer {
         GL11.glDisable(GL11.GL_BLEND);
         renderPillarClipped(clipY);
 
-        // Pass 2: draw animated lava only where the depth mask was written
-        // GL_EQUAL matches D_offset (mask pixels) but not D0 (unmasked pixels).
+        // Pass 2: draw animated lava only where the depth mask was written.
+        // Uses pre-computed vertex UVs mapped to the lava atlas icon instead of
+        // the GL texture matrix, for compatibility with shader mods.
         GL11.glColorMask(true, true, true, true);
         GL11.glDepthFunc(GL11.GL_EQUAL);
         GL11.glDisable(GL11.GL_ALPHA_TEST);
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
         GL11.glColor4f(glowIntensity, glowIntensity, glowIntensity, 1f);
-        setupLavaTextureUvMapping();
-        renderPillarClipped(clipY);
-        cleanupLavaTextureUvMapping();
-        GL11.glDepthFunc(GL11.GL_LEQUAL);
-    }
 
-    private void setupLavaTextureUvMapping() {
         Minecraft.getMinecraft()
             .getTextureManager()
             .bindTexture(TextureMap.locationBlocksTexture);
-
         IIcon lavaIcon = Blocks.lava.getIcon(0, 0);
-        float minU = lavaIcon.getMinU();
-        float maxU = lavaIcon.getMaxU();
-        float minV = lavaIcon.getMinV();
-        float maxV = lavaIcon.getMaxV();
-        float du = maxU - minU;
-        float dv = maxV - minV;
+        renderPillarClippedDirectUVs(
+            clipY,
+            lavaIcon.getMinU(),
+            lavaIcon.getMaxU(),
+            lavaIcon.getMinV(),
+            lavaIcon.getMaxV());
 
-        GL11.glMatrixMode(GL11.GL_TEXTURE);
-        GL11.glPushMatrix();
-        GL11.glLoadIdentity();
-        // Use the same model UVs as the overlay, then remap to the lava atlas tile
-        GL11.glTranslatef(minU, minV, 0f);
-        GL11.glScalef(du, dv, 1f);
-        GL11.glTranslatef(LAVA_TEXTURE_X_OFFSET, LAVA_TEXTURE_Y_OFFSET, 0f);
-        float invScale = 1.0f / Math.max(0.0001f, LAVA_TEXTURE_SCALE);
-        GL11.glScalef(invScale, invScale, 1f);
-        GL11.glMatrixMode(GL11.GL_MODELVIEW);
-    }
-
-    private static void cleanupLavaTextureUvMapping() {
-        GL11.glMatrixMode(GL11.GL_TEXTURE);
-        GL11.glPopMatrix();
-        GL11.glMatrixMode(GL11.GL_MODELVIEW);
+        GL11.glDepthFunc(GL11.GL_LEQUAL);
     }
 
     private void renderEndPortalOverlay(float glowIntensity, float clipY) {
@@ -319,13 +298,16 @@ public class RenderWaystone extends TileEntitySpecialRenderer {
         GL11.glDisable(GL11.GL_BLEND);
         renderPillarClipped(clipY);
 
-        // Pass 2: draw end portal layers only where the depth mask was written
+        // Pass 2: draw end portal layers only where the depth mask was written.
+        // Uses pre-computed vertex UVs instead of the GL texture matrix for
+        // shader mod compatibility.
         GL11.glColorMask(true, true, true, true);
         GL11.glDepthFunc(GL11.GL_EQUAL);
         GL11.glDisable(GL11.GL_ALPHA_TEST);
         GL11.glEnable(GL11.GL_BLEND);
 
         END_PORTAL_RANDOM.setSeed(31100L);
+        float timeOffset = (float) (Minecraft.getSystemTime() % 700000L) / 700000.0f;
 
         for (int i = 0; i < 16; i++) {
             float layerDepth = (float) (16 - i);
@@ -355,21 +337,8 @@ public class RenderWaystone extends TileEntitySpecialRenderer {
                 b * brightness * glowIntensity,
                 1.0f);
 
-            GL11.glMatrixMode(GL11.GL_TEXTURE);
-            GL11.glPushMatrix();
-            GL11.glLoadIdentity();
-            GL11.glTranslatef(0.0f, (float) (Minecraft.getSystemTime() % 700000L) / 700000.0f, 0.0f);
-            GL11.glScalef(scale, scale, scale);
-            GL11.glTranslatef(0.5f, 0.5f, 0.0f);
-            GL11.glRotatef((float) (i * i * 4321 + i * 9) * 2.0f, 0.0f, 0.0f, 1.0f);
-            GL11.glTranslatef(-0.5f, -0.5f, 0.0f);
-            GL11.glMatrixMode(GL11.GL_MODELVIEW);
-
-            renderPillarClipped(clipY);
-
-            GL11.glMatrixMode(GL11.GL_TEXTURE);
-            GL11.glPopMatrix();
-            GL11.glMatrixMode(GL11.GL_MODELVIEW);
+            float rotation = (float) (i * i * 4321 + i * 9) * 2.0f;
+            renderPillarClippedTransformedUVs(clipY, scale, rotation, timeOffset);
         }
 
         GL11.glDepthFunc(GL11.GL_LEQUAL);
@@ -413,6 +382,137 @@ public class RenderWaystone extends TileEntitySpecialRenderer {
         tess.addVertexWithUV(PILLAR_X_MIN, yMax, PILLAR_Z_MAX, UV_U4, UV_V_BOTTOM);
 
         tess.draw();
+    }
+
+    /**
+     * Renders the pillar with UVs directly mapped to a texture atlas icon.
+     * Each face maps to the full icon UV range. Shader-compatible (no texture matrix).
+     */
+    private static void renderPillarClippedDirectUVs(float clipY, float uMin, float uMax, float vMin, float vMax) {
+        float yLow = Math.max(PILLAR_Y_TOP, Math.min(PILLAR_Y_BOTTOM, clipY));
+        float yHigh = PILLAR_Y_BOTTOM;
+        if (yLow >= yHigh) {
+            return;
+        }
+
+        // Zoom into center of the icon by shrinking the UV range
+        float uMid = (uMin + uMax) * 0.5f;
+        float vMid = (vMin + vMax) * 0.5f;
+        float uHalf = (uMax - uMin) * 0.5f / LAVA_UV_SCALE;
+        float vHalf = (vMax - vMin) * 0.5f / LAVA_UV_SCALE;
+        uMin = uMid - uHalf;
+        uMax = uMid + uHalf;
+        vMin = vMid - vHalf;
+        vMax = vMid + vHalf;
+
+        float t = (yLow - PILLAR_Y_TOP) / (PILLAR_Y_BOTTOM - PILLAR_Y_TOP);
+        float vClipped = vMin + (vMax - vMin) * t;
+
+        Tessellator tess = Tessellator.instance;
+        tess.startDrawingQuads();
+
+        // +X face
+        tess.addVertexWithUV(PILLAR_X_MAX, yLow, PILLAR_Z_MAX, uMax, vClipped);
+        tess.addVertexWithUV(PILLAR_X_MAX, yLow, PILLAR_Z_MIN, uMin, vClipped);
+        tess.addVertexWithUV(PILLAR_X_MAX, yHigh, PILLAR_Z_MIN, uMin, vMax);
+        tess.addVertexWithUV(PILLAR_X_MAX, yHigh, PILLAR_Z_MAX, uMax, vMax);
+
+        // -X face
+        tess.addVertexWithUV(PILLAR_X_MIN, yLow, PILLAR_Z_MIN, uMax, vClipped);
+        tess.addVertexWithUV(PILLAR_X_MIN, yLow, PILLAR_Z_MAX, uMin, vClipped);
+        tess.addVertexWithUV(PILLAR_X_MIN, yHigh, PILLAR_Z_MAX, uMin, vMax);
+        tess.addVertexWithUV(PILLAR_X_MIN, yHigh, PILLAR_Z_MIN, uMax, vMax);
+
+        // -Z face
+        tess.addVertexWithUV(PILLAR_X_MAX, yLow, PILLAR_Z_MIN, uMax, vClipped);
+        tess.addVertexWithUV(PILLAR_X_MIN, yLow, PILLAR_Z_MIN, uMin, vClipped);
+        tess.addVertexWithUV(PILLAR_X_MIN, yHigh, PILLAR_Z_MIN, uMin, vMax);
+        tess.addVertexWithUV(PILLAR_X_MAX, yHigh, PILLAR_Z_MIN, uMax, vMax);
+
+        // +Z face
+        tess.addVertexWithUV(PILLAR_X_MIN, yLow, PILLAR_Z_MAX, uMax, vClipped);
+        tess.addVertexWithUV(PILLAR_X_MAX, yLow, PILLAR_Z_MAX, uMin, vClipped);
+        tess.addVertexWithUV(PILLAR_X_MAX, yHigh, PILLAR_Z_MAX, uMin, vMax);
+        tess.addVertexWithUV(PILLAR_X_MIN, yHigh, PILLAR_Z_MAX, uMax, vMax);
+
+        tess.draw();
+    }
+
+    /**
+     * Renders the pillar with pre-computed end portal UV transforms.
+     * Replicates the texture matrix transform (rotate, scale, translate) per vertex
+     * for shader mod compatibility.
+     */
+    private static void renderPillarClippedTransformedUVs(float clipY, float uvScale, float rotationDeg,
+        float timeOffset) {
+        float yLow = Math.max(PILLAR_Y_TOP, Math.min(PILLAR_Y_BOTTOM, clipY));
+        float yHigh = PILLAR_Y_BOTTOM;
+        if (yLow >= yHigh) {
+            return;
+        }
+
+        // Normalized V: 0 at pillar top, 1 at pillar bottom
+        float vTop = (yLow - PILLAR_Y_TOP) / (PILLAR_Y_BOTTOM - PILLAR_Y_TOP);
+        float rad = (float) Math.toRadians(rotationDeg);
+        float cosA = (float) Math.cos(rad);
+        float sinA = (float) Math.sin(rad);
+
+        // Scale base UVs toward center (0.5, 0.5) to zoom in on the texture
+        float invZoom = 1.0f / END_PORTAL_UV_SCALE;
+        float u0 = 0.5f - 0.5f * invZoom;
+        float u1 = 0.5f + 0.5f * invZoom;
+        float v0 = 0.5f + (vTop - 0.5f) * invZoom;
+        float v1 = 0.5f + 0.5f * invZoom;
+
+        // Pre-compute transformed UVs for the 4 unique corner positions:
+        // A=(u1,v0) B=(u0,v0) C=(u0,v1) D=(u1,v1)
+        float au = endPortalU(u1, v0, uvScale, cosA, sinA);
+        float av = endPortalV(u1, v0, uvScale, cosA, sinA, timeOffset);
+        float bu = endPortalU(u0, v0, uvScale, cosA, sinA);
+        float bv = endPortalV(u0, v0, uvScale, cosA, sinA, timeOffset);
+        float cu = endPortalU(u0, v1, uvScale, cosA, sinA);
+        float cv = endPortalV(u0, v1, uvScale, cosA, sinA, timeOffset);
+        float du = endPortalU(u1, v1, uvScale, cosA, sinA);
+        float dv = endPortalV(u1, v1, uvScale, cosA, sinA, timeOffset);
+
+        Tessellator tess = Tessellator.instance;
+        tess.startDrawingQuads();
+
+        // +X face
+        tess.addVertexWithUV(PILLAR_X_MAX, yLow, PILLAR_Z_MAX, au, av);
+        tess.addVertexWithUV(PILLAR_X_MAX, yLow, PILLAR_Z_MIN, bu, bv);
+        tess.addVertexWithUV(PILLAR_X_MAX, yHigh, PILLAR_Z_MIN, cu, cv);
+        tess.addVertexWithUV(PILLAR_X_MAX, yHigh, PILLAR_Z_MAX, du, dv);
+
+        // -X face
+        tess.addVertexWithUV(PILLAR_X_MIN, yLow, PILLAR_Z_MIN, au, av);
+        tess.addVertexWithUV(PILLAR_X_MIN, yLow, PILLAR_Z_MAX, bu, bv);
+        tess.addVertexWithUV(PILLAR_X_MIN, yHigh, PILLAR_Z_MAX, cu, cv);
+        tess.addVertexWithUV(PILLAR_X_MIN, yHigh, PILLAR_Z_MIN, du, dv);
+
+        // -Z face
+        tess.addVertexWithUV(PILLAR_X_MAX, yLow, PILLAR_Z_MIN, au, av);
+        tess.addVertexWithUV(PILLAR_X_MIN, yLow, PILLAR_Z_MIN, bu, bv);
+        tess.addVertexWithUV(PILLAR_X_MIN, yHigh, PILLAR_Z_MIN, cu, cv);
+        tess.addVertexWithUV(PILLAR_X_MAX, yHigh, PILLAR_Z_MIN, du, dv);
+
+        // +Z face
+        tess.addVertexWithUV(PILLAR_X_MIN, yLow, PILLAR_Z_MAX, au, av);
+        tess.addVertexWithUV(PILLAR_X_MAX, yLow, PILLAR_Z_MAX, bu, bv);
+        tess.addVertexWithUV(PILLAR_X_MAX, yHigh, PILLAR_Z_MAX, cu, cv);
+        tess.addVertexWithUV(PILLAR_X_MIN, yHigh, PILLAR_Z_MAX, du, dv);
+
+        tess.draw();
+    }
+
+    /** Computes transformed U for the end portal effect: center, rotate, un-center, scale. */
+    private static float endPortalU(float u, float v, float scale, float cosA, float sinA) {
+        return ((u - 0.5f) * cosA - (v - 0.5f) * sinA + 0.5f) * scale;
+    }
+
+    /** Computes transformed V for the end portal effect: center, rotate, un-center, scale, time scroll. */
+    private static float endPortalV(float u, float v, float scale, float cosA, float sinA, float timeOffset) {
+        return ((u - 0.5f) * sinA + (v - 0.5f) * cosA + 0.5f) * scale + timeOffset;
     }
 
     private static ResourceLocation getBaseTexture(int variant) {
