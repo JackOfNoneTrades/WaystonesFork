@@ -96,7 +96,12 @@ public class BlockWaystone extends BlockContainer {
 
     @Override
     public TileEntity createNewTileEntity(World world, int metadata) {
-        return metadata != ForgeDirection.UNKNOWN.ordinal() ? new TileWaystone() : null;
+        if (metadata == ForgeDirection.UNKNOWN.ordinal()) {
+            return null;
+        }
+        TileWaystone tile = new TileWaystone();
+        tile.setVariant(defaultVariant);
+        return tile;
     }
 
     @Override
