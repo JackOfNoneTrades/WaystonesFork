@@ -13,6 +13,10 @@ Teleport back to activated waystones. For Survival, Adventure or Servers.
 ![forge](images/badges/forge.png)
 [![cord](images/badges/cord.png)](https://discord.gg/xAWCqGrguG)
 
+[![trailer](https://img.youtube.com/vi/3zaHQrlv-5o/0.jpg)](https://www.youtube.com/watch?v=3zaHQrlv-5o)
+
+[![yt](images/icons/youtube.png) Trailer](https://www.youtube.com/watch?v=3zaHQrlv-5o)
+
 ![pretty](images/screenshots/pretty.png)
 ![variants](images/screenshots/variants.png)
 
@@ -95,7 +99,7 @@ The combined work is distributed under LGPLv3 + SNEED terms. The original MIT-li
 
 ## Buy me a coffee
 
-* [ko-fi.com](ko-fi.com/jackisasubtlejoke)
+* [ko-fi.com](https://ko-fi.com/jackisasubtlejoke)
 * Monero: `893tQ56jWt7czBsqAGPq8J5BDnYVCg2tvKpvwTcMY1LS79iDabopdxoUzNLEZtRTH4ewAcKLJ4DM4V41fvrJGHgeKArxwmJ`
 
 <br>
