@@ -31,6 +31,10 @@ public class TeleporterNoPortalSeekBlock extends Teleporter {
         x = (int) entityIn.posX;
         y = (int) entityIn.posY;
         z = (int) entityIn.posZ;
+        if (!world.blockExists(x, y, z)) {
+            world.getChunkProvider()
+                .loadChunk(x >> 4, z >> 4);
+        }
         for (int yy = y; yy < world.getHeight(); yy++) {
             if (world.isAirBlock(x, yy, z) && world.isAirBlock(x, yy + 1, z)) {
                 y = yy;

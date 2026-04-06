@@ -191,6 +191,16 @@ public class WaystoneManager {
     public static TileWaystone getWaystoneInWorld(WaystoneEntry waystone) {
         World targetWorld = MinecraftServer.getServer()
             .worldServerForDimension(waystone.getDimensionId());
+        int x = waystone.getPos()
+            .getX();
+        int y = waystone.getPos()
+            .getY();
+        int z = waystone.getPos()
+            .getZ();
+        if (!targetWorld.blockExists(x, y, z)) {
+            targetWorld.getChunkProvider()
+                .loadChunk(x >> 4, z >> 4);
+        }
         TileEntity tileEntity = targetWorld.getTileEntity(
             waystone.getPos()
                 .getX(),
