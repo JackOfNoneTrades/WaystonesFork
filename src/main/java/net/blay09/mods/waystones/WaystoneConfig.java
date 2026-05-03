@@ -30,6 +30,8 @@ public class WaystoneConfig {
 
     public boolean interDimension;
 
+    public boolean privateWaystones;
+
     public boolean creativeModeOnly;
     public boolean setSpawnPoint;
 
@@ -143,6 +145,12 @@ public class WaystoneConfig {
             "If true, the player's spawnpoint will be set to the last activated waystone.");
         interDimension = config
             .getBoolean("interDimension", Categories.general, true, "If true, all waystones work inter-dimensionally.");
+
+        privateWaystones = config.getBoolean(
+            "Private Waystones",
+            Categories.general,
+            false,
+            "If true, only owners can break their own waystones.");
 
         creativeModeOnly = config.getBoolean(
             "creativeModeOnly",
@@ -340,6 +348,7 @@ public class WaystoneConfig {
         config.globalNoCooldown = buf.readBoolean();
         config.waystoneLightLevel = buf.readFloat();
         config.disableWaystoneDrops = buf.readBoolean();
+        config.privateWaystones = buf.readBoolean();
         int sandyPathBlockCount = buf.readInt();
         config.sandyWaystonePathBlocks = new String[sandyPathBlockCount];
         for (int i = 0; i < sandyPathBlockCount; i++) {
@@ -377,6 +386,7 @@ public class WaystoneConfig {
         buf.writeBoolean(globalNoCooldown);
         buf.writeFloat(waystoneLightLevel);
         buf.writeBoolean(disableWaystoneDrops);
+        buf.writeBoolean(privateWaystones);
         String[] sandyBlocks = sandyWaystonePathBlocks != null ? sandyWaystonePathBlocks : new String[0];
         buf.writeInt(sandyBlocks.length);
         for (String sandyPathBlock : sandyBlocks) {

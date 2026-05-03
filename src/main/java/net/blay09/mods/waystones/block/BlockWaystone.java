@@ -15,6 +15,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -122,7 +123,26 @@ public class BlockWaystone extends BlockContainer {
         if (Waystones.getConfig().creativeModeOnly && !player.capabilities.isCreativeMode) {
             return -1f;
         }
+
+        if (Waystones.getConfig().privateWaystones) {
+            TileWaystone tileWaystone = getTileWaystone(world, x, y, z);
+
+            if (tileWaystone != null) {
+                String waystoneOwner = tileWaystone.getWaystoneOwner();
+
+                if (!(waystoneOwner.contentEquals("") || waystoneOwner.contentEquals(
+                    player.getUniqueID()
+                        .toString())))
+                    return -1f;
+            }
+        }
         return super.getPlayerRelativeBlockHardness(player, world, x, y, z);
+    }
+
+    @Override
+    public boolean canEntityDestroy(IBlockAccess world, int x, int y, int z, Entity entity) {
+        if (Waystones.getConfig().privateWaystones && entity instanceof IBossDisplayData) return false;
+        return true;
     }
 
     @Override

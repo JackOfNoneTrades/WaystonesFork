@@ -20,6 +20,7 @@ public class TileWaystone extends TileEntity {
     public static final int VARIANT_MOSSY_STONEBRICK = 6;
 
     private String waystoneName = "";
+    private String waystoneOwner = "";
     private int variant = VARIANT_STONE;
     private boolean forceGlobalOnActivation;
     private static int warpGeneration = 0;
@@ -59,6 +60,7 @@ public class TileWaystone extends TileEntity {
     public void writeToNBT(NBTTagCompound tagCompound) {
         super.writeToNBT(tagCompound);
         tagCompound.setString("WaystoneName", waystoneName);
+        tagCompound.setString("WaystoneOwner", waystoneOwner);
         tagCompound.setInteger("Variant", variant);
         tagCompound.setBoolean("ForceGlobalOnActivation", forceGlobalOnActivation);
     }
@@ -67,6 +69,7 @@ public class TileWaystone extends TileEntity {
     public void readFromNBT(NBTTagCompound tagCompound) {
         super.readFromNBT(tagCompound);
         waystoneName = tagCompound.getString("WaystoneName");
+        waystoneOwner = tagCompound.getString("WaystoneOwner");
         if (tagCompound.hasKey("Variant")) {
             setVariant(tagCompound.getInteger("Variant"));
         } else {
@@ -94,6 +97,16 @@ public class TileWaystone extends TileEntity {
 
     public void setWaystoneName(String waystoneName) {
         this.waystoneName = waystoneName;
+        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+        markDirty();
+    }
+
+    public String getWaystoneOwner() {
+        return waystoneOwner;
+    }
+
+    public void setWaystoneOwner(String waystoneOwner) {
+        this.waystoneOwner = waystoneOwner;
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
         markDirty();
     }
