@@ -24,6 +24,7 @@ public class WaystoneConfig {
     public static boolean showCooldownOnWaystone;
 
     public boolean allowReturnScrolls;
+    public boolean lootReturnScrolls;
     public boolean allowWarpStone;
 
     public int warpStoneCooldown;
@@ -97,6 +98,11 @@ public class WaystoneConfig {
 
         allowReturnScrolls = config
             .getBoolean("allowReturnScrolls", Categories.general, true, "If true, return scrolls will be craftable.");
+        lootReturnScrolls = config.getBoolean(
+            "Spawn Return Scrolls as loot",
+            Categories.general,
+            true,
+            "If true, return scrolls will be found in dungeons as loot.");
         allowWarpStone = config
             .getBoolean("allowWarpStone", Categories.general, true, "If true, the warp stone will be craftable.");
 
@@ -344,6 +350,7 @@ public class WaystoneConfig {
         config.xpBlocksPerLevel = buf.readInt();
         config.xpCrossDimCost = buf.readInt();
         config.allowReturnScrolls = buf.readBoolean();
+        config.lootReturnScrolls = buf.readBoolean();
         config.allowWarpStone = buf.readBoolean();
         config.globalNoCooldown = buf.readBoolean();
         config.waystoneLightLevel = buf.readFloat();
@@ -382,6 +389,7 @@ public class WaystoneConfig {
         buf.writeInt(xpBlocksPerLevel);
         buf.writeInt(xpCrossDimCost);
         buf.writeBoolean(allowReturnScrolls);
+        buf.writeBoolean(lootReturnScrolls);
         buf.writeBoolean(allowWarpStone);
         buf.writeBoolean(globalNoCooldown);
         buf.writeFloat(waystoneLightLevel);

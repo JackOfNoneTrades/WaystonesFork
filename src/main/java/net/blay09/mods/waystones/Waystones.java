@@ -11,6 +11,8 @@ import net.blay09.mods.waystones.varinstances.VarInstanceCommon;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.WeightedRandomChestContent;
+import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
@@ -239,6 +241,22 @@ public class Waystones {
                     itemWarpStone,
                     'O',
                     Blocks.obsidian));
+        }
+
+        if (config.lootReturnScrolls) {
+            // Item, min, max, weight
+            ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH)
+                .addItem(new WeightedRandomChestContent(new ItemStack(itemReturnScroll), 1, 1, 5));
+            ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR)
+                .addItem(new WeightedRandomChestContent(new ItemStack(itemReturnScroll), 1, 1, 3));
+            ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST)
+                .addItem(new WeightedRandomChestContent(new ItemStack(itemReturnScroll), 1, 2, 3));
+            ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_DESERT_CHEST)
+                .addItem(new WeightedRandomChestContent(new ItemStack(itemReturnScroll), 1, 1, 3));
+            ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_JUNGLE_CHEST)
+                .addItem(new WeightedRandomChestContent(new ItemStack(itemReturnScroll), 1, 1, 2));
+            ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_LIBRARY)
+                .addItem(new WeightedRandomChestContent(new ItemStack(itemReturnScroll), 1, 1, 2));
         }
     }
 
