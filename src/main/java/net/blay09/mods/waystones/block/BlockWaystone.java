@@ -53,7 +53,7 @@ public class BlockWaystone extends BlockContainer {
         setBlockName(Waystones.MODID + ":" + registryName);
 
         setHardness(5f);
-        setResistance(Waystones.getConfig().privateWaystones ? 6000000.0F : 2000f);
+        setResistance(Waystones.getConfig().invulnerableWaystones ? 6000000.0F : 2000f);
 
         setCreativeTab(CreativeTabs.tabDecorations);
     }
@@ -126,7 +126,7 @@ public class BlockWaystone extends BlockContainer {
             return -1f;
         }
 
-        if (Waystones.getConfig().privateWaystones) {
+        if (Waystones.getConfig().invulnerableWaystones) {
             TileWaystone tileWaystone = getTileWaystone(world, x, y, z);
 
             if (tileWaystone != null) {
@@ -144,7 +144,7 @@ public class BlockWaystone extends BlockContainer {
 
     @Override
     public boolean canEntityDestroy(IBlockAccess world, int x, int y, int z, Entity entity) {
-        if (Waystones.getConfig().privateWaystones) {
+        if (Waystones.getConfig().invulnerableWaystones) {
 
             if (!(entity instanceof EntityPlayer player)) {
                 return false;

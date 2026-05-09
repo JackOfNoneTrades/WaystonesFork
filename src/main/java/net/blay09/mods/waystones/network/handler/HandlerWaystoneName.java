@@ -49,7 +49,7 @@ public class HandlerWaystoneName implements IMessageHandler<MessageWaystoneName,
                     }
                     WaystoneManager.removeServerWaystone(new WaystoneEntry((TileWaystone) tileEntity));
                     ((TileWaystone) tileEntity).setWaystoneName(message.getName());
-                    if (Waystones.getConfig().privateWaystones && !(entityPlayer instanceof FakePlayer))
+                    if (Waystones.getConfig().invulnerableWaystones && !(entityPlayer instanceof FakePlayer))
                         ((TileWaystone) tileEntity).setWaystoneOwner(
                             entityPlayer.getUniqueID()
                                 .toString());
