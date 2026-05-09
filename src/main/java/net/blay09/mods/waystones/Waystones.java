@@ -79,6 +79,16 @@ public class Waystones {
         DEBUG_MODE = debugVar != null;
         LOG.info("Debugmode: {}", DEBUG_MODE);
 
+        configuration = new Configuration(event.getSuggestedConfigurationFile());
+        config = new WaystoneConfig();
+        config.reloadLocal(configuration);
+        setConfig(config);
+        varInstanceCommon.preInitHook();
+        WaystoneConfig.setConfig(configuration);
+        if (configuration.hasChanged()) {
+            configuration.save();
+        }
+
         blockWaystone = new BlockWaystone();
         GameRegistry.registerBlock(blockWaystone, ItemBlockWaystone.class, "waystone");
         blockWaystoneSandstone = new BlockWaystone(TileWaystone.VARIANT_SANDSTONE, "waystone_sandstone");
@@ -104,16 +114,6 @@ public class Waystones {
         GameRegistry.registerItem(itemWarpStone, "warpStone");
 
         NetworkHandler.init();
-
-        configuration = new Configuration(event.getSuggestedConfigurationFile());
-        config = new WaystoneConfig();
-        config.reloadLocal(configuration);
-        setConfig(config);
-        varInstanceCommon.preInitHook();
-        WaystoneConfig.setConfig(configuration);
-        if (configuration.hasChanged()) {
-            configuration.save();
-        }
 
         proxy.preInit(event);
     }
