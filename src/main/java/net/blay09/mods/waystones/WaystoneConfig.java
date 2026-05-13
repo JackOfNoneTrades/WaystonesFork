@@ -24,11 +24,14 @@ public class WaystoneConfig {
     public static boolean showCooldownOnWaystone;
 
     public boolean allowReturnScrolls;
+    public boolean lootReturnScrolls;
     public boolean allowWarpStone;
 
     public int warpStoneCooldown;
 
     public boolean interDimension;
+
+    public boolean invulnerableWaystones;
 
     public boolean creativeModeOnly;
     public boolean setSpawnPoint;
@@ -95,6 +98,11 @@ public class WaystoneConfig {
 
         allowReturnScrolls = config
             .getBoolean("allowReturnScrolls", Categories.general, true, "If true, return scrolls will be craftable.");
+        lootReturnScrolls = config.getBoolean(
+            "Spawn Return Scrolls as loot",
+            Categories.general,
+            true,
+            "If true, return scrolls will be found in dungeons as loot.");
         allowWarpStone = config
             .getBoolean("allowWarpStone", Categories.general, true, "If true, the warp stone will be craftable.");
 
@@ -143,6 +151,12 @@ public class WaystoneConfig {
             "If true, the player's spawnpoint will be set to the last activated waystone.");
         interDimension = config
             .getBoolean("interDimension", Categories.general, true, "If true, all waystones work inter-dimensionally.");
+
+        invulnerableWaystones = config.getBoolean(
+            "Invulnerable Waystones",
+            Categories.general,
+            false,
+            "If true, a waystone is invulnerable to all but the player who named them.");
 
         creativeModeOnly = config.getBoolean(
             "creativeModeOnly",
@@ -336,10 +350,12 @@ public class WaystoneConfig {
         config.xpBlocksPerLevel = buf.readInt();
         config.xpCrossDimCost = buf.readInt();
         config.allowReturnScrolls = buf.readBoolean();
+        config.lootReturnScrolls = buf.readBoolean();
         config.allowWarpStone = buf.readBoolean();
         config.globalNoCooldown = buf.readBoolean();
         config.waystoneLightLevel = buf.readFloat();
         config.disableWaystoneDrops = buf.readBoolean();
+        config.invulnerableWaystones = buf.readBoolean();
         int sandyPathBlockCount = buf.readInt();
         config.sandyWaystonePathBlocks = new String[sandyPathBlockCount];
         for (int i = 0; i < sandyPathBlockCount; i++) {
@@ -373,10 +389,12 @@ public class WaystoneConfig {
         buf.writeInt(xpBlocksPerLevel);
         buf.writeInt(xpCrossDimCost);
         buf.writeBoolean(allowReturnScrolls);
+        buf.writeBoolean(lootReturnScrolls);
         buf.writeBoolean(allowWarpStone);
         buf.writeBoolean(globalNoCooldown);
         buf.writeFloat(waystoneLightLevel);
         buf.writeBoolean(disableWaystoneDrops);
+        buf.writeBoolean(invulnerableWaystones);
         String[] sandyBlocks = sandyWaystonePathBlocks != null ? sandyWaystonePathBlocks : new String[0];
         buf.writeInt(sandyBlocks.length);
         for (String sandyPathBlock : sandyBlocks) {

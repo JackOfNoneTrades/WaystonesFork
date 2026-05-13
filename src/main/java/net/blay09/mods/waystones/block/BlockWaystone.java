@@ -1,6 +1,7 @@
 package net.blay09.mods.waystones.block;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 import net.blay09.mods.waystones.WaystoneConfig;
@@ -50,8 +51,10 @@ public class BlockWaystone extends BlockContainer {
         this.defaultVariant = defaultVariant;
         this.iconName = registryName + "_icon";
         setBlockName(Waystones.MODID + ":" + registryName);
+
         setHardness(5f);
-        setResistance(2000f);
+        setResistance(Waystones.getConfig().invulnerableWaystones ? 6000000.0F : 2000f);
+
         setCreativeTab(CreativeTabs.tabDecorations);
     }
 
@@ -122,7 +125,51 @@ public class BlockWaystone extends BlockContainer {
         if (Waystones.getConfig().creativeModeOnly && !player.capabilities.isCreativeMode) {
             return -1f;
         }
+
+        if (Waystones.getConfig().invulnerableWaystones) {
+            TileWaystone tileWaystone = getTileWaystone(world, x, y, z);
+
+            if (tileWaystone != null) {
+                String waystoneOwner = tileWaystone.getWaystoneOwner();
+                boolean hasOwner = !Objects.equals(waystoneOwner, "");
+
+                if (hasOwner && !waystoneOwner.contentEquals(
+                    player.getUniqueID()
+                        .toString()))
+                    return -1f;
+            }
+        }
         return super.getPlayerRelativeBlockHardness(player, world, x, y, z);
+    }
+
+    @Override
+    public boolean canEntityDestroy(IBlockAccess world, int x, int y, int z, Entity entity) {
+        if (Waystones.getConfig().invulnerableWaystones) {
+
+            if (!(entity instanceof EntityPlayer player)) {
+                return false;
+            }
+
+            if (player.capabilities.isCreativeMode) {
+                return true;
+            }
+
+            TileWaystone waystone = getTileWaystone((World) world, x, y, z);
+            if (waystone != null) {
+
+                String ownerId = waystone.getWaystoneOwner();
+                boolean hasOwner = !Objects.equals(ownerId, "");
+
+                if (hasOwner) {
+                    return Objects.equals(
+                        player.getUniqueID()
+                            .toString(),
+                        waystone.getWaystoneOwner());
+                }
+            }
+        }
+
+        return true;
     }
 
     @Override

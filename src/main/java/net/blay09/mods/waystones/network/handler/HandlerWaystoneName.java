@@ -12,6 +12,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.FakePlayer;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -48,6 +49,10 @@ public class HandlerWaystoneName implements IMessageHandler<MessageWaystoneName,
                     }
                     WaystoneManager.removeServerWaystone(new WaystoneEntry((TileWaystone) tileEntity));
                     ((TileWaystone) tileEntity).setWaystoneName(message.getName());
+                    if (Waystones.getConfig().invulnerableWaystones && !(entityPlayer instanceof FakePlayer))
+                        ((TileWaystone) tileEntity).setWaystoneOwner(
+                            entityPlayer.getUniqueID()
+                                .toString());
                     if (message.isGlobal() /* && ctx.getServerHandler().playerEntity.capabilities.isCreativeMode */) {
                         WaystoneManager.addServerWaystone(new WaystoneEntry((TileWaystone) tileEntity));
                         for (EntityPlayer obj : MinecraftServer.getServer()
