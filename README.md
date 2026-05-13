@@ -9,6 +9,7 @@ Teleport back to activated waystones. For Survival, Adventure or Servers.
 [![modrinth](images/badges/modrinth.png)](https://modrinth.com/mod/waystones-x)
 [![curse](images/badges/curse.png)](https://www.curseforge.com/minecraft/mc-mods/waystones-x)
 [![mcmodcn](images/badges/mcmodcn.png)](https://www.mcmod.cn/class/24645.html)
+[![67](images/badges/67.png)](https://67.fentanylsolutions.org/mod/waystones-x)
 [![maven](images/badges/maven.png)](https://maven.fentanylsolutions.org/#/releases/net/blay09/mods/waystones)
 ![forge](images/badges/forge.png)
 [![cord](images/badges/cord.png)](https://discord.gg/xAWCqGrguG)
