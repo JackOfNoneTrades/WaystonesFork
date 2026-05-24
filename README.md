@@ -94,9 +94,9 @@ Currently supported `structure` ids:
 This project is a fork of [Waystones](https://github.com/TwelveIterations/Waystones/tree/1.7.10) by BlayTheNinth.
 
 - **Original Waystones code**: [MIT License](LICENSE-MIT) (Copyright 2016 BlayTheNinth) ([archive](https://archive.md/IolUS))
-- **New contributions**: [LGPLv3 + SNEED](LICENSE) (Copyright 2025 jack)
+- **New contributions**: [LGPLv3](LICENSE) (Copyright 2025 jack)
 
-The combined work is distributed under LGPLv3 + SNEED terms. The original MIT-licensed portions remain available under MIT terms.
+The combined work is distributed under LGPLv3 terms. The original MIT-licensed portions remain available under MIT terms.
 
 ## Buy me a coffee
 
@@ -105,4 +105,4 @@ The combined work is distributed under LGPLv3 + SNEED terms. The original MIT-li
 
 <br>
 
-![license](images/lgplsneed_small.png)
+![license](images/license_small.png)
