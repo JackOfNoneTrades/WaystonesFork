@@ -60,7 +60,7 @@ public class CommonProxy {
     @SubscribeEvent
     public void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
         NetworkHandler.channel.sendTo(new MessageConfig(Waystones.getConfig()), (EntityPlayerMP) event.player);
-        NetworkHandler.channel.sendTo(new MessageDimensionNames(), (EntityPlayerMP) event.player);
+        NetworkHandler.channel.sendTo(new MessageDimensionNames(true), (EntityPlayerMP) event.player);
         WaystoneManager.sendPlayerWaystones(event.player);
     }
 

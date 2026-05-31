@@ -56,3 +56,9 @@ tooltip.waystones:openWaystoneMenu=打开石碑菜单
 
 key.waystones.closegui=关闭传送界面
 key.categories.waystones=Waystones-X
+
+dim.waystones:Overworld=
+dim.waystones:Nether=
+dim.waystones:TheEnd=
+dim.waystones:solarSystem=
+dim.waystones:Hyperspace=

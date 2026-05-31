@@ -56,3 +56,9 @@ tooltip.waystones:openWaystoneMenu=Open Waystone Menu
 
 key.waystones.closegui=Close Warp GUI
 key.categories.waystones=Waystones-X
+
+dim.waystones:Overworld=Overworld
+dim.waystones:Nether=Nether
+dim.waystones:TheEnd=The End
+dim.waystones:solarSystem=Solar System
+dim.waystones:Hyperspace=Hyperspace

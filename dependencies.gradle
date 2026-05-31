@@ -50,4 +50,5 @@ dependencies {
 
     compileOnly("curse.maven:journeymap-32274:6706112")
     runtimeOnlyNonPublishable(rfg.deobf("curse.maven:xaeros-minimap-263420:6012805"))
+    //devOnlyNonPublishable(rfg.deobf("curse.maven:warpdrive-233565:2578306"))
 }
