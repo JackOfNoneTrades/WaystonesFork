@@ -3,6 +3,7 @@ package net.blay09.mods.waystones.mixins.early.minecraft;
 import java.util.List;
 import java.util.Random;
 
+import net.blay09.mods.waystones.Waystones;
 import net.blay09.mods.waystones.worldgen.FortressWaystone;
 import net.minecraft.world.gen.structure.StructureComponent;
 import net.minecraft.world.gen.structure.StructureNetherBridgePieces;
@@ -22,6 +23,10 @@ public abstract class MixinStructureNetherBridgePiecesPiece {
     private void prioritizeFortressWaystonePiece(StructureNetherBridgePieces.Start start, List components, Random rand,
         int x, int y, int z, int coordBaseMode, int type, boolean secondary,
         CallbackInfoReturnable<StructureComponent> cir) {
+        if (!Waystones.getConfig().enableWorldgen) {
+            return;
+        }
+
         if (hasFortressWaystonePiece(components)) {
             return;
         }
