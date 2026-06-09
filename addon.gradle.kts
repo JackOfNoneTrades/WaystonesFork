@@ -1,9 +1,16 @@
+val clientOnlyModIds = listOf(
+    "ModularUI2",
+    "Baubles-Expanded",
+    "angelica",
+    "shouldersurfing",
+    "Sound-Physics",
+)
+
 tasks.withType<JavaExec>().configureEach {
     if (name.startsWith("runServer")) {
-        doFirst("wawelauthStripClientOnlyMods") {
+        doFirst("stripClientOnlyMods") {
             classpath = classpath.filter { file ->
-                val n = file.name
-                !n.contains("ModularUI2", ignoreCase = true) && !n.contains("Baubles-Expanded", ignoreCase = true) && !n.contains("angelica", ignoreCase = true)
+                clientOnlyModIds.none { modId -> file.name.contains(modId, ignoreCase = true) }
             }
         }
     }
