@@ -159,8 +159,21 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void playSound(String soundName, float pitch) {
-        Minecraft.getMinecraft()
-            .getSoundHandler()
+        Minecraft minecraft = Minecraft.getMinecraft();
+        EntityPlayer player = minecraft.thePlayer;
+        if (player != null && player.worldObj != null) {
+            minecraft.getSoundHandler()
+                .playSound(
+                    new PositionedSoundRecord(
+                        new ResourceLocation(soundName),
+                        0.25f,
+                        pitch,
+                        (float) player.posX,
+                        (float) (player.posY - player.yOffset),
+                        (float) player.posZ));
+            return;
+        }
+        minecraft.getSoundHandler()
             .playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation(soundName), pitch));
     }
 

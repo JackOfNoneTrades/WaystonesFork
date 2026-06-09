@@ -10,6 +10,7 @@ import net.blay09.mods.waystones.network.handler.HandlerRenameWaystone;
 import net.blay09.mods.waystones.network.handler.HandlerTeleportEffect;
 import net.blay09.mods.waystones.network.handler.HandlerUnlearnWaystone;
 import net.blay09.mods.waystones.network.handler.HandlerWarpStone;
+import net.blay09.mods.waystones.network.handler.HandlerWaystoneActivationEffect;
 import net.blay09.mods.waystones.network.handler.HandlerWaystoneName;
 import net.blay09.mods.waystones.network.handler.HandlerWaystoneRenamed;
 import net.blay09.mods.waystones.network.handler.HandlerWaystones;
@@ -22,6 +23,7 @@ import net.blay09.mods.waystones.network.message.MessageTeleportEffect;
 import net.blay09.mods.waystones.network.message.MessageUnlearnWaystone;
 import net.blay09.mods.waystones.network.message.MessageWarpReturn;
 import net.blay09.mods.waystones.network.message.MessageWarpStone;
+import net.blay09.mods.waystones.network.message.MessageWaystoneActivationEffect;
 import net.blay09.mods.waystones.network.message.MessageWaystoneName;
 import net.blay09.mods.waystones.network.message.MessageWaystoneRenamed;
 import net.blay09.mods.waystones.network.message.MessageWaystones;
@@ -65,5 +67,10 @@ public class NetworkHandler {
             // HandlerWaystoneRenamed has some client classes
             channel.registerMessage((message, ctx) -> null, MessageWaystoneRenamed.class, discriminator++, Side.CLIENT);
         }
+        channel.registerMessage(
+            HandlerWaystoneActivationEffect.class,
+            MessageWaystoneActivationEffect.class,
+            discriminator++,
+            Side.CLIENT);
     }
 }

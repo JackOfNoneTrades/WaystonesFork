@@ -4,10 +4,13 @@ import net.blay09.mods.waystones.WaystoneManager;
 import net.blay09.mods.waystones.Waystones;
 import net.blay09.mods.waystones.block.BlockWaystone;
 import net.blay09.mods.waystones.block.TileWaystone;
+import net.blay09.mods.waystones.network.NetworkHandler;
+import net.blay09.mods.waystones.network.message.MessageWaystoneActivationEffect;
 import net.blay09.mods.waystones.network.message.MessageWaystoneName;
 import net.blay09.mods.waystones.util.BlockPos;
 import net.blay09.mods.waystones.util.WaystoneEntry;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentTranslation;
@@ -64,8 +67,11 @@ public class HandlerWaystoneName implements IMessageHandler<MessageWaystoneName,
                     // Activate immediately the Waystone immediately
                     TileWaystone tileWaystone = (TileWaystone) tileEntity;
                     WaystoneManager.activateWaystone(entityPlayer, tileWaystone);
-                    BlockWaystone
-                        .clientActivationEffects(world, tileWaystone.xCoord, tileWaystone.yCoord, tileWaystone.zCoord);
+                    if (entityPlayer instanceof EntityPlayerMP) {
+                        NetworkHandler.channel.sendTo(
+                            new MessageWaystoneActivationEffect(new BlockPos(tileWaystone)),
+                            (EntityPlayerMP) entityPlayer);
+                    }
 
                     if (Waystones.getConfig().setSpawnPoint) {
                         BlockWaystone.setSpawnPoint(world, entityPlayer, tileWaystone);

@@ -40,15 +40,18 @@ dependencies {
     runtimeOnlyNonPublishable("com.github.GTNewHorizons:GTNHLib:0.9.66:dev")
     runtimeOnlyNonPublishable(rfg.deobf("curse.maven:catalogue-vintage-1465746:7695645")) // 1.0.2-1.7.10
     runtimeOnlyNonPublishable("com.github.GTNewHorizons:Angelica:2.1.22:dev")
+    runtimeOnlyNonPublishable(rfg.deobf("curse.maven:xaeros-minimap-263420:6012805"))
+    runtimeOnlyNonPublishable(rfg.deobf("com.github.mist475:Sound-Physics:1.1.1")) {
+        exclude group: "io.github.legacymoddingmc", module: "unimixins"
+    }
 
     // implementation "mcp.mobius.waila:Waila:1.5.10_1.7.10"
-    compileOnly(rfg.deobf("curse.maven:waila-73488:2230518"))
-    compileOnly(rfg.deobf("maven.modrinth:village-names:dbqnvxNP"))
     // implementation(rfg.deobf("maven.modrinth:village-names:dbqnvxNP"))
-
     // implementation ("com.falsepattern:falsetweaks-mc1.7.10:2.0.0:dev")
 
+    compileOnly(rfg.deobf("curse.maven:waila-73488:2230518"))
+    compileOnly(rfg.deobf("maven.modrinth:village-names:dbqnvxNP"))
     compileOnly("curse.maven:journeymap-32274:6706112")
-    runtimeOnlyNonPublishable(rfg.deobf("curse.maven:xaeros-minimap-263420:6012805"))
+
     //devOnlyNonPublishable(rfg.deobf("curse.maven:warpdrive-233565:2578306"))
 }
