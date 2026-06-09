@@ -275,7 +275,7 @@ public class WaystoneManager {
             return false;
         }
 
-        sendTeleportEffect(player.worldObj, new BlockPos(player));
+        sendTeleportEffect(player.worldObj, new BlockPos(player), false);
         player.addPotionEffect(new PotionEffect(Potion.blindness.getId(), 20, 3));
         if (dimensionWarp) {
             MinecraftServer.getServer()
@@ -288,7 +288,7 @@ public class WaystoneManager {
         }
         player.rotationYaw = getRotationYaw(facing);
         player.setPositionAndUpdate(targetPos.getX() + 0.5, targetPos.getY(), targetPos.getZ() + 0.5);
-        sendTeleportEffect(player.worldObj, targetPos);
+        sendTeleportEffect(player.worldObj, targetPos, true);
         return true;
     }
 
@@ -329,9 +329,9 @@ public class WaystoneManager {
         return collisions == null || collisions.isEmpty();
     }
 
-    public static void sendTeleportEffect(World world, BlockPos pos) {
+    public static void sendTeleportEffect(World world, BlockPos pos, boolean playSound) {
         NetworkHandler.channel.sendToAllAround(
-            new MessageTeleportEffect(pos),
+            new MessageTeleportEffect(pos, playSound),
             new NetworkRegistry.TargetPoint(world.provider.dimensionId, pos.getX(), pos.getY(), pos.getZ(), 64));
     }
 

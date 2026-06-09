@@ -20,9 +20,19 @@ public class HandlerTeleportEffect implements IMessageHandler<MessageTeleportEff
             @Override
             public void run() {
                 Minecraft mc = Minecraft.getMinecraft();
-                if (!WaystoneConfig.disableTeleportSound) {
+                if (message.shouldPlaySound() && !WaystoneConfig.disableTeleportSound) {
                     mc.getSoundHandler()
-                        .playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("portal.travel"), 1f));
+                        .playSound(
+                            new PositionedSoundRecord(
+                                new ResourceLocation("portal.travel"),
+                                0.25f,
+                                1f,
+                                message.getPos()
+                                    .getX() + 0.5f,
+                                message.getPos()
+                                    .getY() + 0.5f,
+                                message.getPos()
+                                    .getZ() + 0.5f));
                 }
                 for (int i = 0; i < 128; i++) {
                     mc.theWorld.spawnParticle(
