@@ -102,9 +102,7 @@ public class BlockWaystone extends BlockContainer {
         if (metadata == ForgeDirection.UNKNOWN.ordinal()) {
             return null;
         }
-        TileWaystone tile = new TileWaystone();
-        tile.setVariant(defaultVariant);
-        return tile;
+        return new TileWaystone();
     }
 
     @Override
@@ -190,9 +188,6 @@ public class BlockWaystone extends BlockContainer {
         world.setBlockMetadataWithNotify(x, y, z, orientation, 1 | 2);
         world.setBlock(x, y + 1, z, this, ForgeDirection.UNKNOWN.ordinal(), 1 | 2);
         TileWaystone tileWaystone = getTileWaystone(world, x, y, z);
-        if (tileWaystone != null) {
-            tileWaystone.setVariant(defaultVariant);
-        }
         if (tileWaystone != null && world.isRemote
             && entityLiving instanceof EntityPlayer
             && (!Waystones.getConfig().creativeModeOnly || ((EntityPlayer) entityLiving).capabilities.isCreativeMode)) {

@@ -21,9 +21,9 @@ public class WaystoneBlockRenderer implements ISimpleBlockRenderingHandler {
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
         if (block instanceof BlockWaystone) {
-            tileEntity.setVariant(((BlockWaystone) block).getDefaultVariant());
+            tileEntity.setDummyInventoryVariant(((BlockWaystone) block).getDefaultVariant());
         } else {
-            tileEntity.setVariant(TileWaystone.VARIANT_STONE);
+            tileEntity.setDummyInventoryVariant(TileWaystone.VARIANT_STONE);
         }
         GL11.glPushMatrix();
         GL11.glTranslatef(0f, -0.3f, 0f);

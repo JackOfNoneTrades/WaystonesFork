@@ -1,6 +1,7 @@
 package net.blay09.mods.waystones.block;
 
 import net.blay09.mods.waystones.Waystones;
+import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
@@ -21,7 +22,7 @@ public class TileWaystone extends TileEntity {
 
     private String waystoneName = "";
     private String waystoneOwner = "";
-    private int variant = VARIANT_STONE;
+    private int dummyInventoryVariant = VARIANT_STONE;
     private boolean forceGlobalOnActivation;
     private static int warpGeneration = 0;
     private transient int lastSeenWarpGeneration = 0;
@@ -61,7 +62,6 @@ public class TileWaystone extends TileEntity {
         super.writeToNBT(tagCompound);
         tagCompound.setString("WaystoneName", waystoneName);
         tagCompound.setString("WaystoneOwner", waystoneOwner);
-        tagCompound.setInteger("Variant", variant);
         tagCompound.setBoolean("ForceGlobalOnActivation", forceGlobalOnActivation);
     }
 
@@ -70,11 +70,6 @@ public class TileWaystone extends TileEntity {
         super.readFromNBT(tagCompound);
         waystoneName = tagCompound.getString("WaystoneName");
         waystoneOwner = tagCompound.getString("WaystoneOwner");
-        if (tagCompound.hasKey("Variant")) {
-            setVariant(tagCompound.getInteger("Variant"));
-        } else {
-            variant = VARIANT_STONE;
-        }
         forceGlobalOnActivation = tagCompound.getBoolean("ForceGlobalOnActivation");
     }
 
@@ -112,10 +107,20 @@ public class TileWaystone extends TileEntity {
     }
 
     public int getVariant() {
-        return variant;
+        if (worldObj != null) {
+            Block block = worldObj.getBlock(xCoord, yCoord, zCoord);
+            if (block instanceof BlockWaystone) {
+                return ((BlockWaystone) block).getDefaultVariant();
+            }
+        }
+        return dummyInventoryVariant;
     }
 
-    public void setVariant(int variant) {
+    public void setDummyInventoryVariant(int variant) {
+        dummyInventoryVariant = normalizeVariant(variant);
+    }
+
+    private static int normalizeVariant(int variant) {
         switch (variant) {
             case VARIANT_SANDSTONE:
             case VARIANT_MOSSY:
@@ -123,15 +128,10 @@ public class TileWaystone extends TileEntity {
             case VARIANT_NETHER:
             case VARIANT_END:
             case VARIANT_MOSSY_STONEBRICK:
-                this.variant = variant;
-                break;
+                return variant;
             default:
-                this.variant = VARIANT_STONE;
+                return VARIANT_STONE;
         }
-        if (worldObj != null) {
-            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-        }
-        markDirty();
     }
 
     public boolean shouldForceGlobalOnActivation() {

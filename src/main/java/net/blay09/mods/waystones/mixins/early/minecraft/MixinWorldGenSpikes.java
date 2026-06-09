@@ -116,8 +116,6 @@ public class MixinWorldGenSpikes {
 
             TileWaystone tile = (TileWaystone) world.getTileEntity(dx, waystoneY, dz);
             if (tile != null) {
-                tile.setVariant(variant);
-
                 String resolvedName = Waystones.varInstanceCommon.resolveStructureWaystoneName(STRUCTURE_ID, null);
                 if (resolvedName != null && !resolvedName.isEmpty()) {
                     tile.setWaystoneName(resolvedName);

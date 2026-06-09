@@ -55,8 +55,6 @@ public abstract class MixinComponentScatteredFeaturePiecesJunglePyramid {
 
         TileWaystone tile = (TileWaystone) world.getTileEntity(x, y, z);
         if (tile != null && !world.isRemote) {
-            tile.setVariant(variant);
-
             String resolvedName = Waystones.varInstanceCommon.resolveStructureWaystoneName(STRUCTURE_ID, null);
             if (resolvedName != null && !resolvedName.isEmpty()) {
                 tile.setWaystoneName(resolvedName);

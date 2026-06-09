@@ -116,8 +116,6 @@ public class VillageWaystone {
             TileWaystone tile = (TileWaystone) world.getTileEntity(waystoneX, waystoneY, waystoneZ);
 
             if (tile != null && !world.isRemote) {
-                tile.setVariant(variant);
-
                 String autoName = null;
 
                 if (Waystones.getConfig().villageNamesCompat && Loader.isModLoaded("VillageNames")) {

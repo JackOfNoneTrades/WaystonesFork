@@ -84,8 +84,6 @@ public abstract class MixinStructureStrongholdPiecesCrossing {
             return;
         }
 
-        tile.setVariant(variant);
-
         String resolvedName = Waystones.varInstanceCommon.resolveStructureWaystoneName(STRUCTURE_ID, null);
         if (resolvedName != null && !resolvedName.isEmpty()) {
             tile.setWaystoneName(resolvedName);
