@@ -12,7 +12,7 @@ public class HandlerDimensionNames implements IMessageHandler<MessageDimensionNa
     @Override
     public IMessage onMessage(MessageDimensionNames message, MessageContext ctx) {
         for (int i = 0; i < message.getAmount(); i++) {
-            DimensionUtil.setEntry(message.getIds()[i], message.getNames()[i]);
+            DimensionUtil.setEntry(message.getIds()[i], DimensionUtil.localizeDimName(message.getNames()[i]));
         }
         return null;
     }

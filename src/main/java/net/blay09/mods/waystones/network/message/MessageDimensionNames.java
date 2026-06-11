@@ -1,6 +1,5 @@
 package net.blay09.mods.waystones.network.message;
 
-import net.blay09.mods.waystones.util.DimensionUtil;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
@@ -25,7 +24,7 @@ public class MessageDimensionNames implements IMessage {
             this.ids[this.amount] = dimId;
             WorldServer world = DimensionManager.getWorld(dimId);
             WorldProvider provider = world != null ? world.provider : DimensionManager.createProviderFor(dimId);
-            this.names[this.amount] = DimensionUtil.localizeDimName(provider.getDimensionName());
+            this.names[this.amount] = provider.getDimensionName();
             this.amount++;
         }
     }
