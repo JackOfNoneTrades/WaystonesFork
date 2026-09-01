@@ -1,0 +1,64 @@
+tile.waystones:waystone.name=Обелиск
+tile.waystones:waystone_sandstone.name=Песчаный обелиск
+tile.waystones:waystone_mossy.name=Замшелый обелиск
+tile.waystones:waystone_stonebrick.name=Обелиск из каменных кирпичей
+tile.waystones:waystone_mossy_stonebrick.name=Обелиск из замшелых каменных кирпичей
+tile.waystones:waystone_nether.name=Обелиск Незера
+tile.waystones:waystone_end.name=Обелиск Энда
+
+item.waystones:returnScroll.name=Свиток возврата
+item.waystones:warpStone.name=Камень перемещения
+
+waystones:noDimensionWarp=§cВы не можете перемещаться между мирами.
+waystones:waystoneBroken=§cПривязанный обелиск был перемещён или разрушен.
+waystones:scrollNotBound=§cВы ещё не активировали ни одного обелиска.
+waystones:stoneNotCharged=§cКамень перемещения ещё не полностью заряжен.
+waystones:activatedWaystone=Активирован обелиск: %s
+waystones:nameOccupied=§cИмя§r %s §cуже занято.
+waystones:waystonesCreativeOnly=§cАктивация обелисков доступна только игрокам в творческом режиме.
+waystones:waystonesGlobalCreativeOnly=§cАктивация §eглобальных обелисков §cдоступна только игрокам в творческом режиме.
+waystones:waystoneTooFar=§cЭтот обелиск слишком далеко!
+waystones:renameCreativeOnly=§cПереименование обелисков доступно только игрокам в творческом режиме.
+
+gui.waystones:warpStone.selectDestination=Выберите пункт назначения:
+gui.waystones:warpStone.title=§5Камень перемещения
+gui.waystones:guiButton.title=§bСвиток перемещения
+gui.waystones:warpStone.cantWarpWaystone=§cВы пока не можете переместиться!
+gui.waystones:warpStone.nextPage=Далее
+gui.waystones:warpStone.previousPage=Назад
+gui.waystones:confirmReturn=Вы действительно хотите переместиться обратно к последнему обелиску?
+gui.waystones:confirmReturn.boundTo=Привязан к: %s
+gui.waystones:confirmReturn.noWaystoneActive=Нет активного обелиска.
+gui.waystones:editWaystone.enterName=Введите название обелиска:
+gui.waystones:editWaystone.isGlobal=глобальный
+gui.waystones:nameTaken=§cОбелиск с таким названием уже существует!
+gui.waystones:configTitle=Настройки Waystones
+gui.waystones:notEnoughXp=§cВам нужно §a%s§r уровней опыта, чтобы переместиться в это место!
+gui.waystones:searchWaystones=Поиск обелисков
+gui.waystones:bottomInfo1=В %d блоках отсюда (%d, %d, %d) 
+gui.waystones:removeWaystoneDialog=Забыть обелиск %s%s?
+gui.waystones:dialogYes=Да
+gui.waystones:dialogNo=Нет
+gui.waystones:helpTooltip=§nСправка%nНаведите курсор на записи, удерживая%n§oShift§r, чтобы §7закрепить§r или §4удалить§r их.%n%n§7Waystones-X, автор jack%n§7§oНеофициальный форк Waystones
+gui.waystones:sortingMode=Сортировка: %s
+gui.waystones:sortingModeAlphabetical=По названию
+gui.waystones:sortingModeDistance=По расстоянию
+gui.waystones:rename=Переименовать обелиск
+gui.waystones:forget=Забыть обелиск
+gui.waystones:pin=Закрепить обелиск
+gui.waystones:unpin=Открепить обелиск
+
+tooltip.waystones:cooldownLeft=Перезарядка: %d сек.
+tooltip.waystones:boundTo=Привязан к: %s
+tooltip.waystones:none=Нет
+tooltip.waystones:returnToWaystone=Вернуться к обелиску
+tooltip.waystones:openWaystoneMenu=Открыть меню обелисков
+
+key.waystones.closegui=Закрыть меню перемещения
+key.categories.waystones=Waystones-X
+
+dim.waystones:Overworld=Верхний мир
+dim.waystones:Nether=Незер
+dim.waystones:TheEnd=Энд
+dim.waystones:solarSystem=Солнечная система
+dim.waystones:Hyperspace=Гиперпространство
